@@ -51,7 +51,6 @@ import {
 } from "recharts";
 import { cn } from "@/lib/utils";
 import { PhoneMockup } from "@/components/roxpath/PhoneMockup";
-import { FloatingCard } from "@/components/roxpath/FloatingCard";
 import logo from "@/assets/logo.png";
 import mockupHome from "@/assets/mockup-home.png";
 import mockupLibrary from "@/assets/mockup-library.png";
@@ -328,7 +327,7 @@ const FAQS = [
 
 function Home() {
   return (
-    <main className="grain relative min-h-screen overflow-hidden bg-background text-foreground">
+    <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
       <AnnouncementBar />
       <Navbar />
       <Hero />
@@ -354,12 +353,11 @@ function Home() {
 
 function AnnouncementBar() {
   return (
-    <div className="relative z-40 border-b border-white/5 bg-primary/10">
-      <div className="container-x flex items-center justify-center gap-2 py-2.5 text-center text-[13px] text-white/75">
-        <span className="hidden h-1.5 w-1.5 rounded-full bg-primary-light shadow-[0_0_10px_2px_rgba(165,180,252,0.7)] sm:inline-block" />
+    <div className="relative z-40 border-b border-white/10 bg-black">
+      <div className="container-x flex items-center justify-center py-2.5 text-center text-[13px] text-white/70">
         <span>
           Preparing for your first HYROX?{" "}
-          <a href="#waitlist" className="font-medium text-white underline-offset-4 hover:underline">
+          <a href="#waitlist" className="font-semibold text-white underline-offset-4 hover:underline">
             Join the RoxPath early-access list →
           </a>
         </span>
@@ -396,7 +394,7 @@ function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm text-white/70 transition hover:text-white"
+              className="text-xs font-semibold uppercase tracking-wider text-white/65 transition hover:text-white"
             >
               {l.label}
             </a>
@@ -405,7 +403,7 @@ function Navbar() {
         <div className="flex items-center gap-3">
           <a
             href="#waitlist"
-            className="hidden text-sm text-white/70 transition hover:text-white lg:inline-flex"
+            className="hidden text-xs font-semibold uppercase tracking-wider text-white/65 transition hover:text-white lg:inline-flex"
           >
             Sign in
           </a>
@@ -435,7 +433,7 @@ function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="rounded-xl px-3 py-3 text-base text-white/85 hover:bg-white/5"
+              className="rounded-xl px-3 py-3 text-sm font-semibold uppercase tracking-wide text-white/85 hover:bg-white/5"
             >
               {l.label}
             </a>
@@ -453,29 +451,23 @@ function Navbar() {
   );
 }
 
+const HERO_STATS = [
+  { icon: Flame, value: "12-day", label: "Training streak" },
+  { icon: Award, value: "7:42", label: "2km row PB" },
+  { icon: Timer, value: "5:20/km", label: "Race pace target" },
+];
+
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden pb-16 pt-14 md:pt-20 lg:pb-28">
-      {/* Ambient */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[900px]">
-        <div className="absolute left-1/2 top-[-15%] h-[820px] w-[820px] -translate-x-1/2 rounded-full opacity-70 blur-3xl glow-indigo" />
-        <div className="absolute inset-0 bg-[radial-gradient(1200px_500px_at_50%_-10%,rgba(79,70,229,0.12),transparent_70%)]" />
-      </div>
-
       <div className="container-x">
         <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
           <div className="text-center lg:text-left">
-            <div className="mx-auto mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-[11px] tracking-wider text-white/70 lg:mx-0">
-              <span className="h-1.5 w-1.5 rounded-full bg-mint" />
-              EARLY ACCESS · BUILDING FOR HYROX ATHLETES
-            </div>
+            <div className="eyebrow mb-5">Early access · Building for HYROX athletes</div>
             <h1 className="h-display text-balance">
               MASTER EVERY
               <br />
-              <span className="bg-gradient-to-br from-white via-white to-primary-light bg-clip-text text-transparent">
-                STATION.
-              </span>{" "}
-              RACE WITH
+              <span className="text-primary-light">STATION.</span> RACE WITH
               <br />
               CONFIDENCE.
             </h1>
@@ -487,109 +479,36 @@ function Hero() {
               <a href="#waitlist" className="btn-primary">
                 Join the waitlist <ArrowRight className="h-4 w-4" />
               </a>
-              <a href="#techniques" className="btn-ghost">
+              <a href="#techniques" className="btn-outline">
                 Explore techniques
               </a>
             </div>
-            <p className="mt-5 text-sm text-white/40">
-              Built for first-time racers, developing athletes, and HYROX coaches.
-            </p>
+
+            <div className="mt-10 flex items-center justify-center gap-6 border-t border-white/10 pt-6 lg:justify-start">
+              {HERO_STATS.map((s, i) => (
+                <div key={s.label} className={cn("flex items-center gap-2.5", i > 0 && "border-l border-white/10 pl-6")}>
+                  <s.icon className="h-4 w-4 shrink-0 text-primary-light" strokeWidth={1.75} />
+                  <div className="text-left">
+                    <div className="text-mono text-sm font-bold leading-none">{s.value}</div>
+                    <div className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/40">
+                      {s.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Phone */}
-          <div className="relative mx-auto h-[560px] w-full max-w-[520px] lg:h-[640px]">
-            <PhoneMockup src={mockupHome} alt="RoxPath home screen" className="max-w-[280px]" />
-
-            <FloatingCard
-              className="left-[-4%] top-[10%] hidden sm:block"
-              style={{ animation: "float 6s ease-in-out infinite" }}
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="grid h-9 w-9 place-items-center rounded-xl bg-orange/15 text-orange">
-                  <Flame className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase tracking-widest text-white/45">Streak</div>
-                  <div className="text-sm font-semibold">12-day training streak</div>
-                </div>
-              </div>
-            </FloatingCard>
-
-            <FloatingCard
-              className="right-[-6%] top-[24%] hidden sm:block"
-              style={{ animation: "float 7s ease-in-out infinite 1s" }}
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="grid h-9 w-9 place-items-center rounded-xl bg-primary/20 text-primary-light">
-                  <Target className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase tracking-widest text-white/45">Technique</div>
-                  <div className="text-sm font-semibold">Wall Balls</div>
-                </div>
-              </div>
-            </FloatingCard>
-
-            <FloatingCard
-              className="left-[-8%] bottom-[16%] hidden sm:block"
-              style={{ animation: "float 8s ease-in-out infinite 0.5s" }}
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="grid h-9 w-9 place-items-center rounded-xl bg-mint/15 text-mint">
-                  <Award className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase tracking-widest text-white/45">
-                    New PB
-                  </div>
-                  <div className="text-sm font-semibold">2km row · 7:42</div>
-                </div>
-              </div>
-            </FloatingCard>
-
-            <FloatingCard
-              className="right-[-2%] bottom-[6%] hidden sm:block"
-              style={{ animation: "float 6.5s ease-in-out infinite 1.5s" }}
-            >
-              <div className="flex items-center gap-2.5">
-                <div className="grid h-9 w-9 place-items-center rounded-xl bg-blue/15 text-blue">
-                  <Timer className="h-4 w-4" />
-                </div>
-                <div>
-                  <div className="text-[10px] uppercase tracking-widest text-white/45">
-                    Race pace
-                  </div>
-                  <div className="text-mono text-sm font-semibold">5:20 / km</div>
-                </div>
-              </div>
-            </FloatingCard>
-
-            <FloatingCard
-              className="left-1/2 bottom-[-2%] hidden -translate-x-1/2 sm:block"
-              style={{ animation: "float 7.5s ease-in-out infinite 2s" }}
-            >
-              <div className="flex items-center gap-2.5">
-                <Check className="h-4 w-4 text-mint" />
-                <span className="text-sm font-semibold">Session complete</span>
-              </div>
-            </FloatingCard>
-          </div>
+          <PhoneMockup src={mockupHome} alt="RoxPath home screen" className="max-w-[300px] lg:max-w-[340px]" />
         </div>
       </div>
-
-      <style>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-10px); }
-        }
-      `}</style>
     </section>
   );
 }
 
 function BenefitStrip() {
   return (
-    <section className="border-y border-white/5 bg-[#0c0c0d]">
+    <section className="border-y border-white/10 bg-surface">
       <div className="container-x grid gap-px overflow-hidden rounded-none py-0 sm:grid-cols-2 lg:grid-cols-4">
         {BENEFITS.map((b, i) => (
           <div
@@ -667,7 +586,7 @@ function TechniqueLibrary() {
 
         <div className="mt-14 grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           {/* Library panel */}
-          <div className="card-surface grain overflow-hidden p-5 md:p-7">
+          <div className="card-surface overflow-hidden p-5 md:p-7">
             <div className="flex flex-wrap items-center gap-3">
               <div className="relative flex-1 min-w-[220px]">
                 <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
@@ -708,7 +627,7 @@ function TechniqueLibrary() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-[15px] font-semibold">{m.name}</div>
-                    <div className="text-mono mt-0.5 text-[11px] uppercase tracking-widest text-white/40">
+                    <div className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-white/40">
                       {m.level} · {m.tag}
                     </div>
                   </div>
@@ -724,7 +643,7 @@ function TechniqueLibrary() {
           </div>
 
           {/* Detail panel — Wall Balls */}
-          <div className="sheet-surface grain overflow-hidden">
+          <div className="sheet-surface overflow-hidden">
             <div className="relative aspect-[16/10] overflow-hidden border-b border-white/5 bg-black">
               <img
                 src={mockupTechnique}
@@ -865,7 +784,7 @@ function DetailBlock({
 
 function SubstitutionSection() {
   return (
-    <section className="relative border-t border-white/5 bg-[#0c0c0d] py-24 md:py-36">
+    <section className="relative border-t border-white/10 bg-surface py-24 md:py-36">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <SectionHeader
@@ -913,7 +832,6 @@ function SubstitutionSection() {
 function PacingSection() {
   return (
     <section id="how" className="relative py-24 md:py-36">
-      <div className="pointer-events-none absolute right-[-10%] top-[10%] -z-10 h-[500px] w-[500px] rounded-full opacity-40 blur-3xl glow-indigo" />
       <div className="container-x">
         <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
           <div>
@@ -943,13 +861,13 @@ function PacingSection() {
             </p>
           </div>
 
-          <div className="card-surface grain overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/5 p-5">
+          <div className="card-surface overflow-hidden">
+            <div className="flex items-center justify-between border-b border-white/10 p-5">
               <div>
                 <div className="eyebrow">Race simulation</div>
                 <div className="mt-1 font-semibold">First-timer · 1:25 target</div>
               </div>
-              <div className="text-mono rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/70">
+              <div className="rounded-full border border-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white/70">
                 16 segments
               </div>
             </div>
@@ -982,7 +900,7 @@ function PacingSection() {
 function LoggingSection() {
   const [completed, setCompleted] = useState(false);
   return (
-    <section className="relative border-y border-white/5 bg-[#0c0c0d] py-24 md:py-36">
+    <section className="relative border-y border-white/10 bg-surface py-24 md:py-36">
       <div className="container-x grid gap-16 lg:grid-cols-2 lg:items-center">
         <div className="order-2 lg:order-1">
           <PhoneMockup src={mockupLog} alt="RoxPath workout logging" tilt="left" />
@@ -1019,7 +937,7 @@ function LoggingSection() {
           <button
             onClick={() => setCompleted((c) => !c)}
             className={cn(
-              "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-sm font-semibold transition",
+              "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-xs font-bold uppercase tracking-wide transition",
               completed
                 ? "bg-mint/15 text-mint"
                 : "bg-white text-black hover:bg-white/90",
@@ -1057,7 +975,7 @@ function ProgressSection() {
           ].map((s) => (
             <div key={s.k} className="card-surface p-5">
               <div className="flex items-center justify-between">
-                <div className="text-mono text-[11px] uppercase tracking-widest text-white/40">
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-white/40">
                   {s.k}
                 </div>
                 <s.icon className={cn("h-4 w-4", s.accent)} />
@@ -1108,8 +1026,8 @@ function ProgressSection() {
                   />
                   <Tooltip
                     contentStyle={{
-                      background: "#141416",
-                      border: "1px solid rgba(255,255,255,0.1)",
+                      background: "var(--card)",
+                      border: "1px solid var(--border)",
                       borderRadius: 12,
                       fontSize: 12,
                     }}
@@ -1156,8 +1074,8 @@ function ProgressSection() {
                   <Tooltip
                     cursor={{ fill: "rgba(255,255,255,0.04)" }}
                     contentStyle={{
-                      background: "#141416",
-                      border: "1px solid rgba(255,255,255,0.1)",
+                      background: "var(--card)",
+                      border: "1px solid var(--border)",
                       borderRadius: 12,
                       fontSize: 12,
                     }}
@@ -1228,7 +1146,7 @@ function ProgressSection() {
 
 function HowItWorks() {
   return (
-    <section className="relative border-t border-white/5 bg-[#0c0c0d] py-24 md:py-36">
+    <section className="relative border-t border-white/10 bg-surface py-24 md:py-36">
       <div className="container-x">
         <SectionHeader
           eyebrow="How it works"
@@ -1239,7 +1157,7 @@ function HowItWorks() {
           {HOW_STEPS.map((s, i) => (
             <div
               key={s.n}
-              className="hover-lift relative flex flex-col gap-4 rounded-3xl border border-white/8 bg-black/30 p-6"
+              className="hover-lift card-surface relative flex flex-col gap-4 p-6"
             >
               <div className="flex items-center justify-between">
                 <div className="text-mono text-3xl font-bold text-primary-light/80">{s.n}</div>
@@ -1279,11 +1197,11 @@ function AthleteProfile() {
               </div>
               <div className="min-w-0 flex-1">
                 <div className="truncate font-semibold">Hayato K.</div>
-                <div className="text-mono text-[11px] uppercase tracking-widest text-white/45">
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-white/45">
                   Beginner · Men's Open
                 </div>
               </div>
-              <span className="text-mono rounded-full border border-mint/30 bg-mint/10 px-2.5 py-1 text-[10px] text-mint">
+              <span className="rounded-full border border-mint/30 bg-mint/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-mint">
                 Week 2 of 8
               </span>
             </div>
@@ -1296,7 +1214,7 @@ function AthleteProfile() {
                 { k: "Weekly", v: "4 sessions" },
               ].map((s) => (
                 <div key={s.k}>
-                  <div className="text-mono text-[10px] uppercase tracking-widest text-white/40">
+                  <div className="text-[10px] font-semibold uppercase tracking-wide text-white/40">
                     {s.k}
                   </div>
                   <div className="mt-1 text-sm font-semibold">{s.v}</div>
@@ -1327,8 +1245,7 @@ function AthleteProfile() {
 
 function CoachSection() {
   return (
-    <section id="coaches" className="relative border-y border-white/5 bg-[#0c0c0d] py-24 md:py-36">
-      <div className="pointer-events-none absolute left-[-10%] top-[10%] -z-10 h-[500px] w-[500px] rounded-full opacity-30 blur-3xl glow-indigo" />
+    <section id="coaches" className="relative border-y border-white/10 bg-surface py-24 md:py-36">
       <div className="container-x">
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <SectionHeader
@@ -1376,7 +1293,7 @@ function FutureFeatures() {
                 <f.icon className="h-4 w-4 text-white/40" strokeWidth={1.6} />
                 <span className="text-sm">{f.title}</span>
               </div>
-              <span className="text-mono text-[10px] uppercase tracking-widest text-white/35">
+              <span className="text-[10px] font-semibold uppercase tracking-wide text-white/35">
                 Planned
               </span>
             </div>
@@ -1389,7 +1306,7 @@ function FutureFeatures() {
 
 function Testimonials() {
   return (
-    <section className="relative border-t border-white/5 bg-[#0c0c0d] py-24 md:py-36">
+    <section className="relative border-t border-white/10 bg-surface py-24 md:py-36">
       <div className="container-x">
         <SectionHeader
           eyebrow="Early voices"
@@ -1409,7 +1326,7 @@ function Testimonials() {
               </blockquote>
               <figcaption className="mt-6 border-t border-white/5 pt-4">
                 <div className="text-sm font-semibold">{t.name}</div>
-                <div className="text-mono mt-0.5 text-[11px] uppercase tracking-widest text-white/40">
+                <div className="mt-0.5 text-[11px] font-semibold uppercase tracking-wide text-white/40">
                   {t.role}
                 </div>
               </figcaption>
@@ -1490,36 +1407,33 @@ function FinalCTA() {
   }
 
   return (
-    <section id="waitlist" className="relative overflow-hidden py-28 md:py-40">
-      <div className="pointer-events-none absolute inset-0 -z-10 opacity-70">
-        <div className="absolute left-1/2 top-1/2 h-[700px] w-[700px] -translate-x-1/2 -translate-y-1/2 rounded-full glow-indigo blur-3xl" />
-      </div>
-      <div className="pointer-events-none absolute right-[-6%] bottom-[-6%] hidden opacity-40 lg:block">
-        <img
-          src={mockupSim}
-          alt=""
-          aria-hidden
-          className="h-[560px] w-auto rotate-6 rounded-[40px] border border-white/10"
-        />
-      </div>
-      <div className="container-x relative">
-        <div className="max-w-3xl">
-          <div className="eyebrow mb-4">Early access</div>
+    <section id="waitlist" className="paper-section relative overflow-hidden py-28 md:py-40">
+      <div className="container-x relative grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
+        <div>
+          <div className="mb-4 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-primary">
+            Early access
+          </div>
           <h2 className="h-display">
             YOUR NEXT RACE STARTS
             <br />
-            <span className="bg-gradient-to-br from-white to-primary-light bg-clip-text text-transparent">
-              BEFORE RACE DAY.
-            </span>
+            <span className="text-primary">BEFORE RACE DAY.</span>
           </h2>
-          <p className="mt-6 max-w-xl text-lg text-white/60">
+          <p className="mt-6 max-w-xl text-lg text-paper-ink/60">
             Learn the movements. Train with purpose. Track what improves.
           </p>
+
+          <div className="mt-10 hidden max-w-sm lg:block">
+            <img
+              src={mockupSim}
+              alt="RoxPath race simulation screen"
+              className="w-full rounded-2xl border border-black/10"
+            />
+          </div>
         </div>
 
         <form
           onSubmit={submit}
-          className="card-surface mt-10 max-w-2xl grain p-6 md:p-8"
+          className="rounded-2xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.25)] md:p-8"
           noValidate
           aria-live="polite"
         >
@@ -1529,29 +1443,32 @@ function FinalCTA() {
                 <Check className="h-6 w-6" />
               </div>
               <div>
-                <div className="text-lg font-bold">You're on the list.</div>
-                <p className="mt-1 text-sm text-white/60">
-                  We'll email <span className="text-white">{email}</span> when RoxPath opens for
-                  early access.
+                <div className="text-lg font-bold text-paper-ink">You're on the list.</div>
+                <p className="mt-1 text-sm text-paper-ink/60">
+                  We'll email <span className="text-paper-ink">{email}</span> when RoxPath opens
+                  for early access.
                 </p>
               </div>
             </div>
           ) : state === "duplicate" ? (
             <div className="flex items-center gap-4 py-6">
-              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary/20 text-primary-light">
+              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
                 <Sparkles className="h-6 w-6" />
               </div>
               <div>
-                <div className="text-lg font-bold">You're already in.</div>
-                <p className="mt-1 text-sm text-white/60">
-                  <span className="text-white">{email}</span> is on the RoxPath waitlist. We'll be in
-                  touch soon.
+                <div className="text-lg font-bold text-paper-ink">You're already in.</div>
+                <p className="mt-1 text-sm text-paper-ink/60">
+                  <span className="text-paper-ink">{email}</span> is on the RoxPath waitlist.
+                  We'll be in touch soon.
                 </p>
               </div>
             </div>
           ) : (
             <>
-              <label htmlFor="email" className="text-mono text-[11px] uppercase tracking-widest text-white/45">
+              <label
+                htmlFor="email"
+                className="text-[11px] font-semibold uppercase tracking-wide text-paper-ink/45"
+              >
                 Email address
               </label>
               <div className="mt-2 flex flex-col gap-3 sm:flex-row">
@@ -1562,14 +1479,14 @@ function FinalCTA() {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 rounded-full border border-white/10 bg-black/40 px-5 py-3.5 text-[15px] text-white placeholder:text-white/35 focus:border-primary/60 focus:outline-none"
+                  className="flex-1 rounded-full border border-black/15 bg-black/[0.02] px-5 py-3.5 text-[15px] text-paper-ink placeholder:text-paper-ink/35 focus:border-primary/60 focus:outline-none"
                   aria-invalid={state === "error"}
                   aria-describedby={error ? "email-error" : undefined}
                 />
                 <button
                   type="submit"
                   disabled={state === "loading"}
-                  className="btn-primary shrink-0 disabled:opacity-70"
+                  className="btn-dark shrink-0 disabled:opacity-70"
                 >
                   {state === "loading" ? (
                     <>
@@ -1584,7 +1501,7 @@ function FinalCTA() {
               </div>
 
               <div className="mt-5">
-                <div className="text-mono mb-2 text-[11px] uppercase tracking-widest text-white/45">
+                <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-paper-ink/45">
                   I am a…
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -1594,10 +1511,10 @@ function FinalCTA() {
                       type="button"
                       onClick={() => setUserType(t)}
                       className={cn(
-                        "rounded-full border px-3.5 py-1.5 text-xs transition",
+                        "rounded-full border px-3.5 py-1.5 text-xs font-medium transition",
                         userType === t
-                          ? "border-primary/60 bg-primary/15 text-white"
-                          : "border-white/10 text-white/60 hover:border-white/20 hover:text-white",
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-black/15 text-paper-ink/60 hover:border-black/30 hover:text-paper-ink",
                       )}
                     >
                       {t}
@@ -1606,12 +1523,12 @@ function FinalCTA() {
                 </div>
               </div>
 
-              <label className="mt-5 flex items-start gap-3 text-xs text-white/55">
+              <label className="mt-5 flex items-start gap-3 text-xs text-paper-ink/55">
                 <input
                   type="checkbox"
                   checked={consent}
                   onChange={(e) => setConsent(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 rounded border-white/20 bg-transparent"
+                  className="mt-0.5 h-4 w-4 rounded border-black/25 bg-transparent"
                 />
                 <span>
                   Send me RoxPath launch updates and training resources. Unsubscribe anytime.
@@ -1633,7 +1550,7 @@ function FinalCTA() {
 
 function Footer() {
   return (
-    <footer className="relative border-t border-white/8 bg-[#08080a] pb-10 pt-20">
+    <footer className="relative border-t border-white/10 bg-background pb-10 pt-20">
       <div className="container-x">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
@@ -1699,7 +1616,7 @@ function FooterCol({
 }) {
   return (
     <div>
-      <div className="text-mono mb-4 text-[11px] uppercase tracking-widest text-white/40">
+      <div className="mb-4 text-[11px] font-semibold uppercase tracking-wide text-white/40">
         {title}
       </div>
       <ul className="space-y-3">
