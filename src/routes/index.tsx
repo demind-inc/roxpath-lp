@@ -732,7 +732,7 @@ function Footer() {
               { label: 'FAQ', href: '#faq' },
               { label: 'Privacy', href: 'https://app.notion.com/p/demind-inc/RoxPath-Privacy-Policy-3a47c97113e680ba9b3fce86e4567a01?source=copy_link' },
               { label: 'Terms', href: '#' },
-              { label: 'Contact', href: 'mailto:hello@roxpath.app' },
+              { label: 'Contact', href: 'mailto:contact@demind-inc.com' },
             ]}
           />
           <FooterCol
