@@ -14,7 +14,12 @@ export function AppStoreLink({ href, className }: AppStoreLinkProps) {
       rel="noopener noreferrer"
       className={cn("inline-block h-11 shrink-0", className)}
     >
-      <img src={badge} alt="Download on the App Store" className="h-full w-auto" />
+      <img
+        src={badge}
+        alt="Download on the App Store"
+        className="h-full w-auto"
+        style={{ borderRadius: "10px" }}
+      />
     </a>
   );
 }
