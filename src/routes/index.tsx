@@ -223,7 +223,6 @@ const FAQS = [
 function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
-      <AnnouncementBar />
       <Navbar />
       <Hero />
       <BenefitStrip />
@@ -245,24 +244,6 @@ function Home() {
 }
 
 /* ---------------- Sections ---------------- */
-
-function AnnouncementBar() {
-  return (
-    <div className="relative z-40 border-b border-white/10 bg-black">
-      <div className="container-x flex items-center justify-center py-2.5 text-center text-[13px] text-white/70">
-        <span>
-          RoxPath is live on iOS —{' '}
-          <AppStoreLink
-            href={APP_STORE_URL}
-            className="font-semibold text-white underline-offset-4 hover:underline"
-          >
-            download it on the App Store →
-          </AppStoreLink>
-        </span>
-      </div>
-    </div>
-  );
-}
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
