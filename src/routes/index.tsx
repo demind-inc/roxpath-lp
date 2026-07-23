@@ -98,25 +98,25 @@ const BENEFITS = [
 const HOW_STEPS = [
   {
     n: '01',
-    title: 'Plan',
+    title: 'Plan weeks',
     body: 'Get a personalized week-by-week plan built around your gym and level.',
     icon: ClipboardList,
   },
   {
     n: '02',
-    title: 'Learn',
+    title: 'Learn technique',
     body: 'Watch the demonstration and review technique standards and cues.',
     icon: BookOpen,
   },
   {
     n: '03',
-    title: 'Complete',
+    title: 'Complete sessions',
     body: 'Follow your training in the gym, at home, or with race equipment.',
     icon: Dumbbell,
   },
   {
     n: '04',
-    title: 'Log',
+    title: 'Log progress',
     body: 'Record your performance and watch your progress add up.',
     icon: TrendingUp,
   },
