@@ -1,10 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
+import { motion } from "motion/react";
 import {
   Menu,
   X,
   ArrowRight,
   ArrowUpRight,
+  Apple,
   Play,
   Search,
   Star,
@@ -29,7 +31,6 @@ import {
   Mail,
   ChevronDown,
   Bookmark,
-  Loader2,
   Waves,
 } from "lucide-react";
 import {
@@ -51,6 +52,9 @@ import {
 } from "recharts";
 import { cn } from "@/lib/utils";
 import { PhoneMockup } from "@/components/roxpath/PhoneMockup";
+import { Reveal } from "@/components/roxpath/Reveal";
+import { CountUp } from "@/components/roxpath/CountUp";
+import { AppStoreLink } from "@/components/roxpath/AppStoreLink";
 import logo from "@/assets/logo.png";
 import mockupHome from "@/assets/mockup-home.png";
 import mockupLibrary from "@/assets/mockup-library.png";
@@ -65,17 +69,19 @@ export const Route = createFileRoute("/")({
   component: Home,
   head: () => ({
     meta: [
-      { title: "RoxPath — HYROX Technique, Training and Progress" },
+      { title: "RoxPath — HYROX Technique, Training and Progress | Download on the App Store" },
       {
         name: "description",
         content:
-          "Master HYROX movements, learn smarter race pacing, log your workouts, and track your progress with RoxPath.",
+          "RoxPath is now available on the App Store. Master every HYROX movement, learn smarter race pacing, log your workouts, and track your progress — download free for iOS.",
       },
     ],
   }),
 });
 
 /* ---------------- Data ---------------- */
+
+const APP_STORE_URL = "https://apps.apple.com/app/id6790429330";
 
 const NAV_LINKS = [
   { label: "Techniques", href: "#techniques" },
@@ -266,25 +272,25 @@ const TESTIMONIALS = [
     quote:
       "Walking into my first HYROX I actually knew what a legal wall ball looked like. That alone saved me minutes.",
     name: "Priya M.",
-    role: "First-time racer • Beta user",
+    role: "First-time racer • Early user",
   },
   {
     quote:
       "My gym has no sled. The substitutions gave me a real plan instead of guessing with a loaded barbell on a mat.",
     name: "Tom R.",
-    role: "Home gym athlete • Beta user",
+    role: "Home gym athlete • Early user",
   },
   {
     quote:
       "I stopped detonating on Run 3. The pacing section made me respect the opening kilometre.",
     name: "Alina K.",
-    role: "Intermediate athlete • Beta user",
+    role: "Intermediate athlete • Early user",
   },
   {
     quote:
       "Logging every session in one place made progress obvious. I could see the work compound week to week.",
     name: "Marcus D.",
-    role: "Returning athlete • Beta user",
+    role: "Returning athlete • Early user",
   },
 ];
 
@@ -314,12 +320,12 @@ const FAQS = [
     a: "RoxPath is an independent training companion and is not affiliated with or endorsed by HYROX. HYROX is a trademark of its respective owner.",
   },
   {
-    q: "When will the app be available?",
-    a: "We are actively building toward launch. Join the waitlist for launch updates and early-access invitations.",
+    q: "Is RoxPath available now?",
+    a: "Yes. RoxPath is live on the App Store today — download it free and start with the technique library right away.",
   },
   {
-    q: "Will Android and iOS both be supported?",
-    a: "Platform availability will be shared before launch. Join the waitlist for launch updates.",
+    q: "Will Android be supported?",
+    a: "RoxPath is currently iOS-only. Android support is on the roadmap — follow along for updates on when it lands.",
   },
 ];
 
@@ -356,10 +362,13 @@ function AnnouncementBar() {
     <div className="relative z-40 border-b border-white/10 bg-black">
       <div className="container-x flex items-center justify-center py-2.5 text-center text-[13px] text-white/70">
         <span>
-          Preparing for your first HYROX?{" "}
-          <a href="#waitlist" className="font-semibold text-white underline-offset-4 hover:underline">
-            Join the RoxPath early-access list →
-          </a>
+          RoxPath is live on iOS —{" "}
+          <AppStoreLink
+            href={APP_STORE_URL}
+            className="font-semibold text-white underline-offset-4 hover:underline"
+          >
+            download it on the App Store →
+          </AppStoreLink>
         </span>
       </div>
     </div>
@@ -376,7 +385,10 @@ function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   return (
-    <header
+    <motion.header
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         "sticky top-0 z-40 w-full transition-all duration-300",
         scrolled
@@ -401,15 +413,9 @@ function Navbar() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <a
-            href="#waitlist"
-            className="hidden text-xs font-semibold uppercase tracking-wider text-white/65 transition hover:text-white lg:inline-flex"
-          >
-            Sign in
-          </a>
-          <a href="#waitlist" className="btn-primary hidden md:inline-flex">
-            Join the waitlist <ArrowRight className="h-4 w-4" />
-          </a>
+          <AppStoreLink href={APP_STORE_URL} className="btn-primary hidden md:inline-flex">
+            Get the App
+          </AppStoreLink>
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
@@ -438,16 +444,15 @@ function Navbar() {
               {l.label}
             </a>
           ))}
-          <a
-            href="#waitlist"
-            onClick={() => setOpen(false)}
+          <AppStoreLink
+            href={APP_STORE_URL}
             className="btn-primary mt-3 justify-center"
           >
-            Join the waitlist <ArrowRight className="h-4 w-4" />
-          </a>
+            Get the App
+          </AppStoreLink>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }
 
@@ -457,34 +462,62 @@ const HERO_STATS = [
   { icon: Timer, value: "5:20/km", label: "Race pace target" },
 ];
 
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const heroContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.09, delayChildren: 0.05 } },
+};
+
+const heroItem = {
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: EASE } },
+};
+
 function Hero() {
   return (
     <section id="top" className="relative overflow-hidden pb-16 pt-14 md:pt-20 lg:pb-28">
       <div className="container-x">
         <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
-          <div className="text-center lg:text-left">
-            <div className="eyebrow mb-5">Early access · Building for HYROX athletes</div>
-            <h1 className="h-display text-balance">
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={heroContainer}
+            className="text-center lg:text-left"
+          >
+            <motion.div variants={heroItem} className="eyebrow mb-5">
+              Available now · Built for HYROX athletes
+            </motion.div>
+            <motion.h1 variants={heroItem} className="h-display text-balance">
               MASTER EVERY
               <br />
               <span className="text-primary-light">STATION.</span> RACE WITH
               <br />
               CONFIDENCE.
-            </h1>
-            <p className="mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-white/65 lg:mx-0">
+            </motion.h1>
+            <motion.p
+              variants={heroItem}
+              className="mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-white/65 lg:mx-0"
+            >
               RoxPath teaches you how to perform every HYROX movement, adapt it to the equipment you
               have, pace your race, and track every session.
-            </p>
-            <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
-              <a href="#waitlist" className="btn-primary">
-                Join the waitlist <ArrowRight className="h-4 w-4" />
-              </a>
+            </motion.p>
+            <motion.div
+              variants={heroItem}
+              className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
+            >
+              <AppStoreLink href={APP_STORE_URL} className="btn-primary">
+                Download on the App Store
+              </AppStoreLink>
               <a href="#techniques" className="btn-outline">
                 Explore techniques
               </a>
-            </div>
+            </motion.div>
 
-            <div className="mt-10 flex items-center justify-center gap-6 border-t border-white/10 pt-6 lg:justify-start">
+            <motion.div
+              variants={heroItem}
+              className="mt-10 flex items-center justify-center gap-6 border-t border-white/10 pt-6 lg:justify-start"
+            >
               {HERO_STATS.map((s, i) => (
                 <div key={s.label} className={cn("flex items-center gap-2.5", i > 0 && "border-l border-white/10 pl-6")}>
                   <s.icon className="h-4 w-4 shrink-0 text-primary-light" strokeWidth={1.75} />
@@ -496,10 +529,16 @@ function Hero() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <PhoneMockup src={mockupHome} alt="RoxPath home screen" className="max-w-[300px] lg:max-w-[340px]" />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.94, y: 12 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
+          >
+            <PhoneMockup src={mockupHome} alt="RoxPath home screen" className="max-w-[300px] lg:max-w-[340px]" />
+          </motion.div>
         </div>
       </div>
     </section>
@@ -511,8 +550,9 @@ function BenefitStrip() {
     <section className="border-y border-white/10 bg-surface">
       <div className="container-x grid gap-px overflow-hidden rounded-none py-0 sm:grid-cols-2 lg:grid-cols-4">
         {BENEFITS.map((b, i) => (
-          <div
+          <Reveal
             key={b.title}
+            delay={i * 0.08}
             className={cn(
               "relative flex flex-col gap-3 py-10",
               i > 0 && "sm:border-l sm:border-white/5",
@@ -524,7 +564,7 @@ function BenefitStrip() {
             <b.icon className={cn("h-6 w-6", b.accent)} strokeWidth={1.6} />
             <div className="h-card">{b.title}</div>
             <p className="text-[14.5px] leading-relaxed text-white/55">{b.body}</p>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -543,11 +583,11 @@ function SectionHeader({
   align?: "left" | "center";
 }) {
   return (
-    <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
+    <Reveal className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
       <div className="eyebrow mb-4">{eyebrow}</div>
       <h2 className="h-section text-balance">{title}</h2>
       {body && <p className="mt-5 text-lg leading-relaxed text-white/60">{body}</p>}
-    </div>
+    </Reveal>
   );
 }
 
@@ -586,7 +626,7 @@ function TechniqueLibrary() {
 
         <div className="mt-14 grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
           {/* Library panel */}
-          <div className="card-surface overflow-hidden p-5 md:p-7">
+          <Reveal className="card-surface overflow-hidden p-5 md:p-7">
             <div className="flex flex-wrap items-center gap-3">
               <div className="relative flex-1 min-w-[220px]">
                 <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
@@ -640,10 +680,10 @@ function TechniqueLibrary() {
                 </div>
               )}
             </div>
-          </div>
+          </Reveal>
 
           {/* Detail panel — Wall Balls */}
-          <div className="sheet-surface overflow-hidden">
+          <Reveal delay={0.12} className="sheet-surface overflow-hidden">
             <div className="relative aspect-[16/10] overflow-hidden border-b border-white/5 bg-black">
               <img
                 src={mockupTechnique}
@@ -717,7 +757,7 @@ function TechniqueLibrary() {
                 </DetailBlock>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -802,26 +842,29 @@ function SubstitutionSection() {
         </div>
 
         <div className="mt-12 -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-6 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 lg:grid-cols-3">
-          {SUBSTITUTIONS.map((s) => (
-            <div
+          {SUBSTITUTIONS.map((s, i) => (
+            <Reveal
               key={s.original}
-              className="hover-lift card-surface flex w-[86vw] shrink-0 snap-start flex-col justify-between p-6 md:w-auto"
+              delay={i * 0.07}
+              className="w-[86vw] shrink-0 snap-start md:w-auto"
             >
-              <div>
-                <div className="eyebrow text-white/40">Original station</div>
-                <div className="mt-1 text-2xl font-bold">{s.original}</div>
-                <div className="my-5 flex items-center gap-3 text-sm text-white/40">
-                  <div className="divider-thin flex-1" />
-                  <ArrowRight className="h-4 w-4" />
-                  <div className="divider-thin flex-1" />
+              <div className="hover-lift card-surface flex h-full flex-col justify-between p-6">
+                <div>
+                  <div className="eyebrow text-white/40">Original station</div>
+                  <div className="mt-1 text-2xl font-bold">{s.original}</div>
+                  <div className="my-5 flex items-center gap-3 text-sm text-white/40">
+                    <div className="divider-thin flex-1" />
+                    <ArrowRight className="h-4 w-4" />
+                    <div className="divider-thin flex-1" />
+                  </div>
+                  <div className="eyebrow text-white/40">Swap it for</div>
+                  <div className={cn("mt-1 text-xl font-semibold", s.color)}>{s.swap}</div>
                 </div>
-                <div className="eyebrow text-white/40">Swap it for</div>
-                <div className={cn("mt-1 text-xl font-semibold", s.color)}>{s.swap}</div>
+                <p className="mt-6 text-sm leading-relaxed text-white/55">
+                  <span className="text-white/75">Trains:</span> {s.trains}
+                </p>
               </div>
-              <p className="mt-6 text-sm leading-relaxed text-white/55">
-                <span className="text-white/75">Trains:</span> {s.trains}
-              </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -845,7 +888,10 @@ function PacingSection() {
               }
               body="RoxPath helps athletes understand sustainable running pace, station intensity, transitions, and effort distribution across the complete HYROX race."
             />
-            <div className="mt-8 flex items-start gap-3 rounded-2xl border border-orange/30 bg-orange/[0.06] p-4">
+            <Reveal
+              delay={0.15}
+              className="mt-8 flex items-start gap-3 rounded-2xl border border-orange/30 bg-orange/[0.06] p-4"
+            >
               <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-orange" />
               <div>
                 <div className="text-sm font-semibold text-orange">Pace warning</div>
@@ -855,13 +901,13 @@ function PacingSection() {
                   performance.
                 </p>
               </div>
-            </div>
+            </Reveal>
             <p className="mt-6 text-xs text-white/40">
               Educational pacing guidance, not medical advice.
             </p>
           </div>
 
-          <div className="card-surface overflow-hidden">
+          <Reveal delay={0.2} className="card-surface overflow-hidden">
             <div className="flex items-center justify-between border-b border-white/10 p-5">
               <div>
                 <div className="eyebrow">Race simulation</div>
@@ -890,7 +936,7 @@ function PacingSection() {
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -902,9 +948,9 @@ function LoggingSection() {
   return (
     <section className="relative border-y border-white/10 bg-surface py-24 md:py-36">
       <div className="container-x grid gap-16 lg:grid-cols-2 lg:items-center">
-        <div className="order-2 lg:order-1">
+        <Reveal className="order-2 lg:order-1">
           <PhoneMockup src={mockupLog} alt="RoxPath workout logging" tilt="left" />
-        </div>
+        </Reveal>
         <div className="order-1 lg:order-2">
           <SectionHeader
             eyebrow="Log the work."
@@ -913,9 +959,10 @@ function LoggingSection() {
           />
 
           <div className="mt-8 space-y-3">
-            {LOG_ENTRIES.map((e) => (
-              <div
+            {LOG_ENTRIES.map((e, i) => (
+              <Reveal
                 key={e.title}
+                delay={i * 0.08}
                 className="flex items-center justify-between rounded-2xl border border-white/8 bg-black/30 p-4"
               >
                 <div className="flex items-center gap-3">
@@ -930,12 +977,13 @@ function LoggingSection() {
                   </div>
                 </div>
                 <Check className="h-4 w-4 text-mint" />
-              </div>
+              </Reveal>
             ))}
           </div>
 
-          <button
+          <motion.button
             onClick={() => setCompleted((c) => !c)}
+            whileTap={{ scale: 0.97 }}
             className={cn(
               "mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-xs font-bold uppercase tracking-wide transition",
               completed
@@ -944,13 +992,17 @@ function LoggingSection() {
             )}
           >
             {completed ? (
-              <>
+              <motion.span
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2"
+              >
                 <Check className="h-4 w-4" /> Session complete
-              </>
+              </motion.span>
             ) : (
               <>Complete session</>
             )}
-          </button>
+          </motion.button>
         </div>
       </div>
     </section>
@@ -968,12 +1020,12 @@ function ProgressSection() {
 
         <div className="mt-14 grid gap-4 md:grid-cols-4">
           {[
-            { k: "Streak", v: "18", u: "sessions", accent: "text-orange", icon: Flame },
-            { k: "Workouts", v: "32", u: "completed", accent: "text-primary-light", icon: ClipboardList },
+            { k: "Streak", v: 18, u: "sessions", accent: "text-orange", icon: Flame },
+            { k: "Workouts", v: 32, u: "completed", accent: "text-primary-light", icon: ClipboardList },
             { k: "Best 2km row", v: "7:42", u: "min", accent: "text-blue", icon: Waves },
             { k: "Threshold pace", v: "5:18", u: "/km", accent: "text-mint", icon: TrendingUp },
-          ].map((s) => (
-            <div key={s.k} className="card-surface p-5">
+          ].map((s, i) => (
+            <Reveal key={s.k} delay={i * 0.07} className="card-surface p-5">
               <div className="flex items-center justify-between">
                 <div className="text-[11px] font-semibold uppercase tracking-wide text-white/40">
                   {s.k}
@@ -981,15 +1033,17 @@ function ProgressSection() {
                 <s.icon className={cn("h-4 w-4", s.accent)} />
               </div>
               <div className="mt-3 flex items-end gap-1.5">
-                <div className={cn("text-mono text-4xl font-bold", s.accent)}>{s.v}</div>
+                <div className={cn("text-mono text-4xl font-bold", s.accent)}>
+                  {typeof s.v === "number" ? <CountUp value={s.v} /> : s.v}
+                </div>
                 <div className="mb-1.5 text-xs text-white/45">{s.u}</div>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
         <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-          <div className="card-surface p-6">
+          <Reveal className="card-surface p-6">
             <div className="flex items-center justify-between">
               <div>
                 <div className="eyebrow">Running pace trend</div>
@@ -1047,9 +1101,9 @@ function ProgressSection() {
                 </LineChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="card-surface p-6">
+          <Reveal delay={0.1} className="card-surface p-6">
             <div className="eyebrow">Station performance</div>
             <div className="mt-1 text-lg font-semibold">Average split · last simulation</div>
             <div className="mt-6 h-[240px]">
@@ -1087,11 +1141,11 @@ function ProgressSection() {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
+          </Reveal>
         </div>
 
         <div className="mt-4 grid gap-4 md:grid-cols-3">
-          <div className="card-surface p-6">
+          <Reveal className="card-surface p-6">
             <div className="eyebrow">Weekly activity</div>
             <div className="mt-4 grid grid-cols-7 gap-2">
               {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
@@ -1109,9 +1163,9 @@ function ProgressSection() {
               ))}
             </div>
             <div className="mt-4 text-mono text-xs text-white/45">4 sessions · 3h 42m total</div>
-          </div>
+          </Reveal>
 
-          <div className="card-surface p-6">
+          <Reveal delay={0.08} className="card-surface p-6">
             <div className="eyebrow">Recently improved</div>
             <div className="mt-4 space-y-3">
               {[
@@ -1125,19 +1179,21 @@ function ProgressSection() {
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
 
-          <div className="card-surface flex flex-col justify-between p-6">
+          <Reveal delay={0.16} className="card-surface flex flex-col justify-between p-6">
             <div>
               <div className="eyebrow">Wall-ball volume</div>
-              <div className="text-mono mt-3 text-4xl font-bold text-primary-light">1,240</div>
+              <div className="text-mono mt-3 text-4xl font-bold text-primary-light">
+                <CountUp value={1240} format={(v) => Math.round(v).toLocaleString()} />
+              </div>
               <div className="text-xs text-white/45">reps this month</div>
             </div>
             <div className="mt-6 flex h-3 items-center overflow-hidden rounded-full bg-white/5">
               <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-primary to-primary-light" />
             </div>
             <div className="mt-2 text-mono text-xs text-white/45">72% of monthly target</div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -1155,22 +1211,21 @@ function HowItWorks() {
         />
         <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {HOW_STEPS.map((s, i) => (
-            <div
-              key={s.n}
-              className="hover-lift card-surface relative flex flex-col gap-4 p-6"
-            >
-              <div className="flex items-center justify-between">
-                <div className="text-mono text-3xl font-bold text-primary-light/80">{s.n}</div>
-                <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary-light">
-                  <s.icon className="h-4 w-4" />
+            <Reveal key={s.n} delay={i * 0.08}>
+              <div className="hover-lift card-surface relative flex h-full flex-col gap-4 p-6">
+                <div className="flex items-center justify-between">
+                  <div className="text-mono text-3xl font-bold text-primary-light/80">{s.n}</div>
+                  <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary-light">
+                    <s.icon className="h-4 w-4" />
+                  </div>
                 </div>
+                <div className="h-card">{s.title}</div>
+                <p className="text-sm leading-relaxed text-white/55">{s.body}</p>
+                {i < HOW_STEPS.length - 1 && (
+                  <div className="pointer-events-none absolute right-[-14px] top-1/2 hidden h-px w-7 -translate-y-1/2 bg-gradient-to-r from-white/30 to-transparent lg:block" />
+                )}
               </div>
-              <div className="h-card">{s.title}</div>
-              <p className="text-sm leading-relaxed text-white/55">{s.body}</p>
-              {i < HOW_STEPS.length - 1 && (
-                <div className="pointer-events-none absolute right-[-14px] top-1/2 hidden h-px w-7 -translate-y-1/2 bg-gradient-to-r from-white/30 to-transparent lg:block" />
-              )}
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -1182,7 +1237,9 @@ function AthleteProfile() {
   return (
     <section className="relative py-24 md:py-36">
       <div className="container-x grid gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <PhoneMockup src={mockupPlan} alt="Athlete plan overview" tilt="right" />
+        <Reveal>
+          <PhoneMockup src={mockupPlan} alt="Athlete plan overview" tilt="right" />
+        </Reveal>
         <div>
           <SectionHeader
             eyebrow="Your athlete profile"
@@ -1190,7 +1247,7 @@ function AthleteProfile() {
             body="Your profile keeps your race target, division, saved techniques, and weekly training in view so every session moves the plan forward."
           />
 
-          <div className="mt-8 card-surface p-6">
+          <Reveal delay={0.15} className="mt-8 card-surface p-6">
             <div className="flex items-center gap-4 border-b border-white/5 pb-5">
               <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-primary-light text-lg font-bold text-white">
                 HK
@@ -1236,7 +1293,7 @@ function AthleteProfile() {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -1253,20 +1310,22 @@ function CoachSection() {
             title={<>A clearer way to teach HYROX fundamentals.</>}
             body="Use RoxPath as a shared technique reference for athletes, recommend movement substitutions, and help clients track the work completed between coaching sessions."
           />
-          <a href="#waitlist" className="btn-primary shrink-0">
-            Join as a coach <ArrowRight className="h-4 w-4" />
-          </a>
+          <AppStoreLink href={APP_STORE_URL} className="btn-primary shrink-0">
+            Get RoxPath for your athletes
+          </AppStoreLink>
         </div>
 
         <div className="mt-14 grid gap-4 md:grid-cols-3">
-          {COACH_BENEFITS.map((b) => (
-            <div key={b.title} className="hover-lift card-surface p-6">
-              <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary-light">
-                <b.icon className="h-5 w-5" strokeWidth={1.6} />
+          {COACH_BENEFITS.map((b, i) => (
+            <Reveal key={b.title} delay={i * 0.08}>
+              <div className="hover-lift card-surface h-full p-6">
+                <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary-light">
+                  <b.icon className="h-5 w-5" strokeWidth={1.6} />
+                </div>
+                <div className="mt-5 h-card">{b.title}</div>
+                <p className="mt-2 text-sm leading-relaxed text-white/55">{b.body}</p>
               </div>
-              <div className="mt-5 h-card">{b.title}</div>
-              <p className="mt-2 text-sm leading-relaxed text-white/55">{b.body}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
         <p className="mt-8 text-xs text-white/40">Dedicated coach dashboard — coming soon.</p>
@@ -1284,9 +1343,10 @@ function FutureFeatures() {
           title={<>On the roadmap — not available yet.</>}
         />
         <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {FUTURE.map((f) => (
-            <div
+          {FUTURE.map((f, i) => (
+            <Reveal
               key={f.title}
+              delay={i * 0.05}
               className="flex items-center justify-between rounded-2xl border border-dashed border-white/10 bg-white/[0.015] p-5 text-white/70"
             >
               <div className="flex items-center gap-3">
@@ -1296,7 +1356,7 @@ function FutureFeatures() {
               <span className="text-[10px] font-semibold uppercase tracking-wide text-white/35">
                 Planned
               </span>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -1313,24 +1373,23 @@ function Testimonials() {
           title={<>What beta athletes are telling us.</>}
         />
         <p className="mt-3 text-xs text-white/40">
-          Illustrative beta-user quotes shown until public launch.
+          Illustrative early-user quotes.
         </p>
         <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {TESTIMONIALS.map((t) => (
-            <figure
-              key={t.name}
-              className="hover-lift card-surface flex h-full flex-col justify-between p-6"
-            >
-              <blockquote className="text-[15px] leading-relaxed text-white/85">
-                “{t.quote}”
-              </blockquote>
-              <figcaption className="mt-6 border-t border-white/5 pt-4">
-                <div className="text-sm font-semibold">{t.name}</div>
-                <div className="mt-0.5 text-[11px] font-semibold uppercase tracking-wide text-white/40">
-                  {t.role}
-                </div>
-              </figcaption>
-            </figure>
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={t.name} delay={i * 0.07}>
+              <figure className="hover-lift card-surface flex h-full flex-col justify-between p-6">
+                <blockquote className="text-[15px] leading-relaxed text-white/85">
+                  “{t.quote}”
+                </blockquote>
+                <figcaption className="mt-6 border-t border-white/5 pt-4">
+                  <div className="text-sm font-semibold">{t.name}</div>
+                  <div className="mt-0.5 text-[11px] font-semibold uppercase tracking-wide text-white/40">
+                    {t.role}
+                  </div>
+                </figcaption>
+              </figure>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -1357,18 +1416,19 @@ function FAQSection() {
         </div>
         <Accordion type="single" collapsible className="w-full space-y-2">
           {FAQS.map((f, i) => (
-            <AccordionItem
-              key={i}
-              value={`item-${i}`}
-              className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.015] px-5"
-            >
-              <AccordionTrigger className="text-left text-[15px] font-semibold hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                {f.q}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm leading-relaxed text-white/60">
-                {f.a}
-              </AccordionContent>
-            </AccordionItem>
+            <Reveal key={i} delay={Math.min(i * 0.05, 0.3)}>
+              <AccordionItem
+                value={`item-${i}`}
+                className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.015] px-5"
+              >
+                <AccordionTrigger className="text-left text-[15px] font-semibold hover:no-underline [&[data-state=open]>svg]:rotate-180">
+                  {f.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-relaxed text-white/60">
+                  {f.a}
+                </AccordionContent>
+              </AccordionItem>
+            </Reveal>
           ))}
         </Accordion>
       </div>
@@ -1376,42 +1436,13 @@ function FAQSection() {
   );
 }
 
-type FormState = "idle" | "loading" | "success" | "error" | "duplicate";
-
 function FinalCTA() {
-  const [email, setEmail] = useState("");
-  const [userType, setUserType] = useState("Athlete");
-  const [consent, setConsent] = useState(true);
-  const [state, setState] = useState<FormState>("idle");
-  const [error, setError] = useState("");
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setError("");
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!valid) {
-      setError("Enter a valid email address.");
-      setState("error");
-      return;
-    }
-    setState("loading");
-    await new Promise((r) => setTimeout(r, 900));
-    // No backend configured — mock submission without persisting.
-    const seen = typeof window !== "undefined" ? sessionStorage.getItem(`rp:${email}`) : null;
-    if (seen) {
-      setState("duplicate");
-      return;
-    }
-    if (typeof window !== "undefined") sessionStorage.setItem(`rp:${email}`, "1");
-    setState("success");
-  }
-
   return (
-    <section id="waitlist" className="paper-section relative overflow-hidden py-28 md:py-40">
+    <section id="download" className="paper-section relative overflow-hidden py-28 md:py-40">
       <div className="container-x relative grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
-        <div>
+        <Reveal>
           <div className="mb-4 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-primary">
-            Early access
+            Available now
           </div>
           <h2 className="h-display">
             YOUR NEXT RACE STARTS
@@ -1419,8 +1450,16 @@ function FinalCTA() {
             <span className="text-primary">BEFORE RACE DAY.</span>
           </h2>
           <p className="mt-6 max-w-xl text-lg text-paper-ink/60">
-            Learn the movements. Train with purpose. Track what improves.
+            Learn the movements. Train with purpose. Track what improves. RoxPath is free to
+            download on the App Store.
           </p>
+
+          <div className="mt-8 flex flex-wrap items-center gap-4">
+            <AppStoreLink href={APP_STORE_URL} className="btn-dark">
+              Download on the App Store
+            </AppStoreLink>
+            <span className="text-sm text-paper-ink/45">Free · Requires iOS</span>
+          </div>
 
           <div className="mt-10 hidden max-w-sm lg:block">
             <img
@@ -1429,120 +1468,11 @@ function FinalCTA() {
               className="w-full rounded-2xl border border-black/10"
             />
           </div>
-        </div>
+        </Reveal>
 
-        <form
-          onSubmit={submit}
-          className="rounded-2xl border border-black/10 bg-white p-6 shadow-[0_20px_60px_-30px_rgba(0,0,0,0.25)] md:p-8"
-          noValidate
-          aria-live="polite"
-        >
-          {state === "success" ? (
-            <div className="flex items-center gap-4 py-6">
-              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-mint/20 text-mint">
-                <Check className="h-6 w-6" />
-              </div>
-              <div>
-                <div className="text-lg font-bold text-paper-ink">You're on the list.</div>
-                <p className="mt-1 text-sm text-paper-ink/60">
-                  We'll email <span className="text-paper-ink">{email}</span> when RoxPath opens
-                  for early access.
-                </p>
-              </div>
-            </div>
-          ) : state === "duplicate" ? (
-            <div className="flex items-center gap-4 py-6">
-              <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-primary/15 text-primary">
-                <Sparkles className="h-6 w-6" />
-              </div>
-              <div>
-                <div className="text-lg font-bold text-paper-ink">You're already in.</div>
-                <p className="mt-1 text-sm text-paper-ink/60">
-                  <span className="text-paper-ink">{email}</span> is on the RoxPath waitlist.
-                  We'll be in touch soon.
-                </p>
-              </div>
-            </div>
-          ) : (
-            <>
-              <label
-                htmlFor="email"
-                className="text-[11px] font-semibold uppercase tracking-wide text-paper-ink/45"
-              >
-                Email address
-              </label>
-              <div className="mt-2 flex flex-col gap-3 sm:flex-row">
-                <input
-                  id="email"
-                  type="email"
-                  required
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 rounded-full border border-black/15 bg-black/[0.02] px-5 py-3.5 text-[15px] text-paper-ink placeholder:text-paper-ink/35 focus:border-primary/60 focus:outline-none"
-                  aria-invalid={state === "error"}
-                  aria-describedby={error ? "email-error" : undefined}
-                />
-                <button
-                  type="submit"
-                  disabled={state === "loading"}
-                  className="btn-dark shrink-0 disabled:opacity-70"
-                >
-                  {state === "loading" ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" /> Joining…
-                    </>
-                  ) : (
-                    <>
-                      Join the waitlist <ArrowRight className="h-4 w-4" />
-                    </>
-                  )}
-                </button>
-              </div>
-
-              <div className="mt-5">
-                <div className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-paper-ink/45">
-                  I am a…
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {["Athlete", "Coach", "Personal trainer", "Fitness enthusiast"].map((t) => (
-                    <button
-                      key={t}
-                      type="button"
-                      onClick={() => setUserType(t)}
-                      className={cn(
-                        "rounded-full border px-3.5 py-1.5 text-xs font-medium transition",
-                        userType === t
-                          ? "border-primary bg-primary/10 text-primary"
-                          : "border-black/15 text-paper-ink/60 hover:border-black/30 hover:text-paper-ink",
-                      )}
-                    >
-                      {t}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <label className="mt-5 flex items-start gap-3 text-xs text-paper-ink/55">
-                <input
-                  type="checkbox"
-                  checked={consent}
-                  onChange={(e) => setConsent(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 rounded border-black/25 bg-transparent"
-                />
-                <span>
-                  Send me RoxPath launch updates and training resources. Unsubscribe anytime.
-                </span>
-              </label>
-
-              {error && (
-                <p id="email-error" className="mt-3 text-sm text-coral" role="alert">
-                  {error}
-                </p>
-              )}
-            </>
-          )}
-        </form>
+        <Reveal delay={0.15} className="flex justify-center lg:justify-end">
+          <PhoneMockup src={mockupHome} alt="RoxPath app on iPhone" className="max-w-[280px]" />
+        </Reveal>
       </div>
     </section>
   );
@@ -1562,9 +1492,9 @@ function Footer() {
               Master every station. Race with confidence. RoxPath is a mobile training companion for
               first-time and developing HYROX athletes.
             </p>
-            <a href="#waitlist" className="btn-primary mt-6">
-              Join the waitlist <ArrowRight className="h-4 w-4" />
-            </a>
+            <AppStoreLink href={APP_STORE_URL} className="btn-primary mt-6">
+              Download on the App Store
+            </AppStoreLink>
           </div>
 
           <FooterCol
