@@ -338,11 +338,11 @@ function Hero() {
             className="text-center lg:text-left"
           >
             <motion.h1 variants={heroItem} className="h-display text-balance">
-              MASTER EVERY
+              PERSONALIZED PLANS
               <br />
-              <span className="text-primary-light">STATION.</span> RACE WITH
+              &amp; TECHNIQUES FOR
               <br />
-              CONFIDENCE.
+              <span className="text-primary-light">EVERY LEVEL.</span>
             </motion.h1>
             <motion.p
               variants={heroItem}
