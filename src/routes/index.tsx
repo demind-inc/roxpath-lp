@@ -4,18 +4,13 @@ import { motion } from 'motion/react';
 import {
   Menu,
   X,
-  Search,
   Target,
-  Activity,
   Dumbbell,
   MapPin,
   Timer,
   TrendingUp,
   ClipboardList,
-  Award,
-  Users,
   BookOpen,
-  Sparkles,
   Instagram,
   Mail,
 } from 'lucide-react';
@@ -60,10 +55,8 @@ export const Route = createFileRoute('/')({
 const APP_STORE_URL = 'https://apps.apple.com/app/id6790429330';
 
 const NAV_LINKS = [
-  { label: 'Your Plan', href: '#plan' },
-  { label: 'Techniques', href: '#techniques' },
-  { label: 'How it works', href: '#how' },
-  { label: 'Progress', href: '#progress' },
+  { label: 'Features', href: '#features' },
+  { label: 'How it works', href: '#how-it-works' },
   { label: 'FAQ', href: '#faq' },
 ];
 
@@ -105,38 +98,28 @@ const BENEFITS = [
 const HOW_STEPS = [
   {
     n: '01',
-    title: 'Choose a movement',
-    body: 'Search by name or select a HYROX station.',
-    icon: Search,
+    title: 'Plan',
+    body: 'Get a personalized week-by-week plan built around your gym and level.',
+    icon: ClipboardList,
   },
   {
     n: '02',
-    title: 'Learn the standard',
-    body: 'Watch the demonstration and review execution cues.',
+    title: 'Learn',
+    body: 'Watch the demonstration and review technique standards and cues.',
     icon: BookOpen,
   },
   {
     n: '03',
-    title: 'Complete your training',
-    body: 'Follow the technique in your gym, at home, or with race equipment.',
+    title: 'Complete',
+    body: 'Follow your training in the gym, at home, or with race equipment.',
     icon: Dumbbell,
   },
   {
     n: '04',
-    title: 'Log and improve',
-    body: 'Record your performance and see progress over time.',
+    title: 'Log',
+    body: 'Record your performance and watch your progress add up.',
     icon: TrendingUp,
   },
-];
-
-const FUTURE = [
-  { title: 'AI technique analysis', icon: Sparkles },
-  { title: 'Coach-created workout plans', icon: ClipboardList },
-  { title: 'Community challenges', icon: Users },
-  { title: 'Apple Health integration', icon: Activity },
-  { title: 'Garmin integration', icon: Activity },
-  { title: 'Official race result tracking', icon: Award },
-  { title: 'Personalized workout recommendations', icon: Sparkles },
 ];
 
 const TESTIMONIALS = [
@@ -205,7 +188,7 @@ const FAQS = [
 
 function Home() {
   return (
-    <main className="relative min-h-screen overflow-hidden bg-background text-foreground">
+    <main className="relative min-h-screen bg-background text-foreground">
       <Navbar />
       <Hero />
       <BenefitStrip />
@@ -215,7 +198,6 @@ function Home() {
       <LoggingSection />
       <ProgressSection />
       <HowItWorks />
-      <FutureFeatures />
       <Testimonials />
       <FAQSection />
       <FinalCTA />
@@ -362,11 +344,18 @@ function Hero() {
             initial={{ opacity: 0, scale: 0.94, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
+            className="relative z-0 mx-auto max-w-[420px]"
           >
+            <PhoneMockup
+              src={mockupLibrary}
+              alt="Station library with a technique card for every HYROX movement"
+              className="absolute -right-28 top-8 max-w-[240px] -z-10 opacity-90 lg:-right-36"
+              tilt="right"
+            />
             <PhoneMockup
               src={mockupHome}
               alt="RoxPath home screen"
-              className="max-w-[300px] lg:max-w-[340px]"
+              className="relative max-w-[300px] lg:max-w-[340px]"
             />
           </motion.div>
         </div>
@@ -377,7 +366,7 @@ function Hero() {
 
 function BenefitStrip() {
   return (
-    <section className="border-y border-white/10 bg-surface">
+    <section id="features" className="border-y border-white/10 bg-surface">
       <div className="container-x grid gap-px overflow-hidden rounded-none py-0 sm:grid-cols-2 lg:grid-cols-4">
         {BENEFITS.map((b, i) => (
           <Reveal
@@ -510,7 +499,7 @@ function TechniqueLibrary() {
 
 function PacingSection() {
   return (
-    <section id="how" className="paper-section relative py-24 md:py-36">
+    <section id="pacing" className="paper-section relative py-24 md:py-36">
       <div className="container-x">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
           <SectionHeader
@@ -579,7 +568,7 @@ function ProgressSection() {
 
 function HowItWorks() {
   return (
-    <section className="relative border-t border-white/10 bg-surface py-24 md:py-36">
+    <section id="how-it-works" className="relative border-t border-white/10 bg-surface py-24 md:py-36">
       <div className="container-x">
         <SectionHeader eyebrow="How it works" title={<>Four simple steps.</>} align="center" />
         <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -678,7 +667,6 @@ function FinalCTA() {
     <section id="download" className="paper-section relative overflow-hidden py-28 md:py-40">
       <div className="container-x relative grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-start">
         <Reveal>
-          <span className="eyebrow-pill mb-4">Available now</span>
           <h2 className="h-display">
             YOUR NEXT RACE STARTS
             <br />
@@ -732,8 +720,9 @@ function Footer() {
           <FooterCol
             title="Product"
             links={[
+              { label: 'Features', href: '#features' },
               { label: 'Techniques', href: '#techniques' },
-              { label: 'Features', href: '#how' },
+              { label: 'How it works', href: '#how-it-works' },
               { label: 'Progress', href: '#progress' },
             ]}
           />

@@ -1,3 +1,5 @@
 node_modules
 .output
+.wrangler
+package-lock.json
 **/*.DS_Store
