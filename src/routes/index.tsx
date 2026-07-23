@@ -342,18 +342,18 @@ function Hero() {
             initial={{ opacity: 0, scale: 0.94, y: 12 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
-            className="relative z-0 mx-auto max-w-[420px]"
+            className="relative z-0 mx-auto w-full max-w-[280px] -translate-x-3 sm:max-w-[360px] sm:translate-x-0 lg:max-w-[420px]"
           >
             <PhoneMockup
               src={mockupLibrary}
               alt="Station library with a technique card for every HYROX movement"
-              className="absolute -right-28 top-8 max-w-[240px] -z-10 opacity-90 lg:-right-36"
+              className="absolute -right-8 top-4 max-w-[150px] -z-10 opacity-90 sm:-right-16 sm:top-6 sm:max-w-[190px] md:-right-24 md:top-8 md:max-w-[220px] lg:-right-36 lg:max-w-[240px]"
               tilt="right"
             />
             <PhoneMockup
               src={mockupHome}
               alt="RoxPath home screen"
-              className="relative max-w-[300px] lg:max-w-[340px]"
+              className="relative max-w-[220px] sm:max-w-[260px] md:max-w-[300px] lg:max-w-[340px]"
             />
           </motion.div>
         </div>
@@ -635,10 +635,10 @@ function FAQSection() {
             body="If it's not here, reach out and we'll answer directly."
           />
           <a
-            href="mailto:hello@roxpath.app"
+            href="mailto:contact@demind-inc.com"
             className="mt-6 inline-flex items-center gap-2 text-sm text-primary-light hover:underline"
           >
-            <Mail className="h-4 w-4" /> hello@roxpath.app
+            <Mail className="h-4 w-4" /> contact@demind-inc.com
           </a>
         </div>
         <Accordion type="single" collapsible className="w-full space-y-2">
@@ -740,7 +740,7 @@ function Footer() {
             links={[
               { label: 'Instagram', href: '#', icon: Instagram },
               { label: 'TikTok', href: '#' },
-              { label: 'Email', href: 'mailto:hello@roxpath.app', icon: Mail },
+              { label: 'Email', href: 'mailto:contact@demind-inc.com', icon: Mail },
             ]}
           />
         </div>

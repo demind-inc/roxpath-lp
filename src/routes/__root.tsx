@@ -13,7 +13,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import logo from "../assets/logo.png";
 
-const SITE_URL = "https://roxpath.app";
+const SITE_URL = "https://roxpath.demind-inc.com";
 const APP_STORE_ID = "6790429330";
 
 const APP_JSON_LD = {
@@ -34,7 +34,7 @@ const APP_JSON_LD = {
   publisher: {
     "@type": "Organization",
     name: "RoxPath",
-    email: "hello@roxpath.app",
+    email: "contact@demind-inc.com",
   },
 };
 
