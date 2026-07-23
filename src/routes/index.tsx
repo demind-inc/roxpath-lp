@@ -224,9 +224,7 @@ function Navbar() {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
         'sticky top-0 z-40 w-full border-b backdrop-blur-xl transition-all duration-300',
-        scrolled
-          ? 'border-white/5 bg-background/70'
-          : 'border-white/5 bg-background/25'
+        scrolled ? 'border-white/5 bg-background/70' : 'border-white/5 bg-background/25'
       )}
     >
       <div className="container-x flex h-16 items-center justify-between md:h-20">
@@ -568,7 +566,10 @@ function ProgressSection() {
 
 function HowItWorks() {
   return (
-    <section id="how-it-works" className="relative border-t border-white/10 bg-surface py-24 md:py-36">
+    <section
+      id="how-it-works"
+      className="relative border-t border-white/10 bg-surface py-24 md:py-36"
+    >
       <div className="container-x">
         <SectionHeader eyebrow="How it works" title={<>Four simple steps.</>} align="center" />
         <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -679,7 +680,6 @@ function FinalCTA() {
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
             <AppStoreLink href={APP_STORE_URL} className="h-14" />
-            <span className="text-sm text-paper-ink/45">Free · Requires iOS</span>
           </div>
         </Reveal>
 

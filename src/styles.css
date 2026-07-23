@@ -144,7 +144,7 @@
 @utility h-card {
   font-family: var(--font-display);
   font-size: clamp(1.1rem, 1.5vw, 1.3rem);
-  line-height: 1.15;
+  line-height: 1.3;
   text-transform: uppercase;
 }
 
