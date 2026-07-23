@@ -223,7 +223,7 @@ const HOW_STEPS = [
   {
     n: "01",
     title: "Choose a movement",
-    body: "Search the technique library or select a HYROX station.",
+    body: "Search by name or select a HYROX station.",
     icon: Search,
   },
   {
@@ -328,7 +328,7 @@ const FAQS = [
   },
   {
     q: "Is RoxPath available now?",
-    a: "Yes. RoxPath is live on the App Store today — download it free and start with the technique library right away.",
+    a: "Yes. RoxPath is live on the App Store today — download it free and start training right away.",
   },
   {
     q: "Will Android be supported?",
@@ -584,8 +584,8 @@ function PlanSection() {
     <section id="plan" className="relative overflow-hidden py-24 md:py-36">
       <div className="container-x">
         <SectionHeader
-          eyebrow="Your training plan"
-          title={<>Built around your gym. Paced to your level.</>}
+          eyebrow="Personalized plan"
+          title={<>Matched to your gym and level.</>}
           align="center"
         />
 
@@ -670,12 +670,7 @@ function TechniqueLibrary() {
       <div className="container-x">
         <SectionHeader
           eyebrow="The HYROX Technique Library"
-          title={
-            <>
-              Know exactly how every
-              <br className="hidden md:block" /> movement should feel.
-            </>
-          }
+          title={<>Learn every movement, correctly.</>}
           body="Watch clear demonstrations, follow step-by-step instructions, understand race standards, and correct mistakes before they become habits."
         />
 
@@ -884,11 +879,7 @@ function SubstitutionSection() {
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <SectionHeader
             eyebrow="No sled? No problem."
-            title={
-              <>
-                Build race-ready skills with the equipment you already have.
-              </>
-            }
+            title={<>Swap the equipment, not the results.</>}
           />
           <p className="max-w-md text-[15px] leading-relaxed text-white/55">
             Every substitution explains what the original station trains, how to recreate the
@@ -935,12 +926,7 @@ function PacingSection() {
           <div>
             <SectionHeader
               eyebrow="Smarter race pacing"
-              title={
-                <>
-                  Stop winning the first
-                  <br /> kilometre and surviving the rest.
-                </>
-              }
+              title={<>Stop sprinting kilometre one.</>}
               body="RoxPath helps athletes understand sustainable running pace, station intensity, transitions, and effort distribution across the complete HYROX race."
             />
             <Reveal
@@ -1009,7 +995,7 @@ function LoggingSection() {
         <div className="order-1 lg:order-2">
           <SectionHeader
             eyebrow="Log the work."
-            title={<>Every session becomes part of your race plan.</>}
+            title={<>Every session moves you forward.</>}
             body="Record exercise, sets, repetitions, weight, distance, time, pace, RPE, and notes — with sensible defaults so it stays fast between sets."
           />
 
@@ -1070,7 +1056,7 @@ function ProgressSection() {
       <div className="container-x">
         <SectionHeader
           eyebrow="Progress you can see"
-          title={<>Turn consistent training into measurable confidence.</>}
+          title={<>Consistency becomes confidence.</>}
         />
 
         <div className="mt-14 grid gap-4 md:grid-cols-4">
@@ -1261,7 +1247,7 @@ function HowItWorks() {
       <div className="container-x">
         <SectionHeader
           eyebrow="How it works"
-          title={<>Four steps from movement to measurable progress.</>}
+          title={<>Four simple steps.</>}
           align="center"
         />
         <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
@@ -1298,7 +1284,7 @@ function AthleteProfile() {
         <div>
           <SectionHeader
             eyebrow="Your athlete profile"
-            title={<>Every session, race, and record — in one place.</>}
+            title={<>Everything, in one place.</>}
           />
 
           <Reveal delay={0.15} className="mt-8 card-surface p-6">
@@ -1361,7 +1347,7 @@ function CoachSection() {
         <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
           <SectionHeader
             eyebrow="For coaches"
-            title={<>A clearer way to teach HYROX fundamentals.</>}
+            title={<>Teach HYROX fundamentals, clearly.</>}
             body="Use RoxPath as a shared technique reference for athletes, recommend movement substitutions, and help clients track the work completed between coaching sessions."
           />
           <AppStoreLink href={APP_STORE_URL} className="btn-primary shrink-0">
@@ -1394,7 +1380,7 @@ function FutureFeatures() {
       <div className="container-x">
         <SectionHeader
           eyebrow="What's next"
-          title={<>On the roadmap — not available yet.</>}
+          title={<>On the roadmap.</>}
         />
         <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {FUTURE.map((f, i) => (
@@ -1424,7 +1410,7 @@ function Testimonials() {
       <div className="container-x">
         <SectionHeader
           eyebrow="Early voices"
-          title={<>What beta athletes are telling us.</>}
+          title={<>What early users are saying.</>}
         />
         <p className="mt-3 text-xs text-white/40">
           Illustrative early-user quotes.
