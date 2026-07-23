@@ -11,6 +11,32 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import logo from "../assets/logo.png";
+
+const SITE_URL = "https://roxpath.app";
+const APP_STORE_ID = "6790429330";
+
+const APP_JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  name: "RoxPath",
+  operatingSystem: "iOS",
+  applicationCategory: "SportsApplication",
+  description:
+    "RoxPath teaches you how to perform every HYROX movement, adapt it to the equipment you have, pace your race, and track every session.",
+  url: SITE_URL,
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+  },
+  downloadUrl: `https://apps.apple.com/app/id${APP_STORE_ID}`,
+  publisher: {
+    "@type": "Organization",
+    name: "RoxPath",
+    email: "hello@roxpath.app",
+  },
+};
 
 function NotFoundComponent() {
   return (
@@ -78,29 +104,42 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "theme-color", content: "#0a0a0a" },
+      { name: "robots", content: "index, follow" },
       { title: "RoxPath — HYROX Technique, Training and Progress" },
       {
         name: "description",
         content:
-          "Master HYROX movements, learn smarter race pacing, log your workouts, and track your progress with RoxPath.",
+          "Master HYROX movements, learn smarter race pacing, log your workouts, and track your progress with RoxPath — free on the App Store.",
       },
+      { name: "apple-itunes-app", content: `app-id=${APP_STORE_ID}` },
+      { property: "og:site_name", content: "RoxPath" },
       { property: "og:title", content: "RoxPath — HYROX Technique, Training and Progress" },
       {
         property: "og:description",
         content:
-          "Master HYROX movements, learn smarter race pacing, log your workouts, and track your progress with RoxPath.",
+          "Master HYROX movements, learn smarter race pacing, log your workouts, and track your progress with RoxPath — free on the App Store.",
       },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: logo },
+      { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "RoxPath — HYROX Technique, Training and Progress" },
+      {
+        name: "twitter:description",
+        content:
+          "Master HYROX movements, learn smarter race pacing, log your workouts, and track your progress with RoxPath — free on the App Store.",
+      },
+      { name: "twitter:image", content: logo },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "canonical", href: SITE_URL },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap",
       },
     ],
   }),
@@ -115,6 +154,11 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(APP_JSON_LD) }}
+        />
       </head>
       <body>
         {children}
