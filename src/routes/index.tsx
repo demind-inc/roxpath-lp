@@ -17,11 +17,9 @@ import {
   Award,
   Users,
   BookOpen,
-  Check,
   Sparkles,
   Instagram,
   Mail,
-  Waves,
 } from 'lucide-react';
 import {
   Accordion,
@@ -29,21 +27,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  CartesianGrid,
-} from 'recharts';
 import { cn } from '@/lib/utils';
 import { PhoneMockup } from '@/components/roxpath/PhoneMockup';
 import { Reveal } from '@/components/roxpath/Reveal';
-import { CountUp } from '@/components/roxpath/CountUp';
 import { AppStoreLink } from '@/components/roxpath/AppStoreLink';
 import logo from '@/assets/logo.png';
 import mockupHome from '@/assets/mockup-home.png';
@@ -113,39 +99,6 @@ const BENEFITS = [
     body: 'Track sessions, streaks, personal bests, weights, distances, and times.',
     accent: 'text-blue',
   },
-];
-
-const LOG_ENTRIES = [
-  {
-    title: '4 × 500 m row',
-    meta: '1:55 avg /500m • RPE 8',
-    color: 'bg-primary/20 text-primary-light',
-  },
-  { title: '5 × 20 wall balls', meta: '6kg • unbroken', color: 'bg-mint/15 text-mint' },
-  { title: "4 × 20m heavy farmer's carry", meta: '2 × 32kg', color: 'bg-orange/15 text-orange' },
-  { title: '6 km threshold run', meta: '5:25/km avg', color: 'bg-blue/15 text-blue' },
-];
-
-const PACE_TREND = [
-  { w: 'W1', pace: 5.9 },
-  { w: 'W2', pace: 5.75 },
-  { w: 'W3', pace: 5.62 },
-  { w: 'W4', pace: 5.55 },
-  { w: 'W5', pace: 5.4 },
-  { w: 'W6', pace: 5.32 },
-  { w: 'W7', pace: 5.25 },
-  { w: 'W8', pace: 5.18 },
-];
-
-const STATION_DATA = [
-  { s: 'SkiErg', t: 240 },
-  { s: 'Sled Push', t: 155 },
-  { s: 'Sled Pull', t: 168 },
-  { s: 'Burpee BJ', t: 230 },
-  { s: 'Row', t: 235 },
-  { s: "Farmer's", t: 118 },
-  { s: 'Lunges', t: 205 },
-  { s: 'Wall Balls', t: 220 },
 ];
 
 const HOW_STEPS = [
@@ -575,7 +528,7 @@ function SectionHeader({
     <Reveal className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center')}>
       <span className="eyebrow-pill mb-4">{eyebrow}</span>
       <h2 className="h-section text-balance">{title}</h2>
-      {body && <p className="mt-5 text-lg leading-relaxed text-white/60">{body}</p>}
+      {body && <p className="mt-5 text-lg leading-relaxed opacity-60">{body}</p>}
     </Reveal>
   );
 }
@@ -641,12 +594,16 @@ function PacingSection() {
 }
 
 function LoggingSection() {
-  const [completed, setCompleted] = useState(false);
   return (
-    <section className="relative border-y border-white/10 bg-surface py-24 md:py-36">
+    <section className="paper-section relative py-24 md:py-36">
       <div className="container-x grid gap-16 lg:grid-cols-2 lg:items-center">
-        <Reveal className="order-2 lg:order-1">
-          <PhoneMockup src={mockupLog} alt="RoxPath workout logging" tilt="left" />
+        <Reveal className="order-2 flex justify-center lg:order-1">
+          <PhoneMockup
+            src={mockupLog}
+            alt="RoxPath workout logging"
+            className="max-w-[280px]"
+            tilt="left"
+          />
         </Reveal>
         <div className="order-1 lg:order-2">
           <SectionHeader
@@ -654,50 +611,6 @@ function LoggingSection() {
             title={<>Every session moves you forward.</>}
             body="Record exercise, sets, repetitions, weight, distance, time, pace, RPE, and notes — with sensible defaults so it stays fast between sets."
           />
-
-          <div className="mt-8 space-y-3">
-            {LOG_ENTRIES.map((e, i) => (
-              <Reveal
-                key={e.title}
-                delay={i * 0.08}
-                className="flex items-center justify-between rounded-2xl border border-white/8 bg-black/30 p-4"
-              >
-                <div className="flex items-center gap-3">
-                  <div className={cn('grid h-10 w-10 place-items-center rounded-xl', e.color)}>
-                    <Dumbbell className="h-4 w-4" />
-                  </div>
-                  <div>
-                    <div className="text-sm font-semibold">{e.title}</div>
-                    <div className="text-mono text-[11px] uppercase tracking-widest text-white/40">
-                      {e.meta}
-                    </div>
-                  </div>
-                </div>
-                <Check className="h-4 w-4 text-mint" />
-              </Reveal>
-            ))}
-          </div>
-
-          <motion.button
-            onClick={() => setCompleted((c) => !c)}
-            whileTap={{ scale: 0.97 }}
-            className={cn(
-              'mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full py-3.5 text-xs font-bold uppercase tracking-wide transition',
-              completed ? 'bg-mint/15 text-mint' : 'bg-white text-black hover:bg-white/90'
-            )}
-          >
-            {completed ? (
-              <motion.span
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-2"
-              >
-                <Check className="h-4 w-4" /> Session complete
-              </motion.span>
-            ) : (
-              <>Complete session</>
-            )}
-          </motion.button>
         </div>
       </div>
     </section>
@@ -706,198 +619,17 @@ function LoggingSection() {
 
 function ProgressSection() {
   return (
-    <section id="progress" className="relative py-24 md:py-36">
-      <div className="container-x">
-        <SectionHeader
-          eyebrow="Progress you can see"
-          title={<>Consistency becomes confidence.</>}
-        />
-
-        <div className="mt-14 grid gap-4 md:grid-cols-4">
-          {[
-            { k: 'Streak', v: 18, u: 'sessions', accent: 'text-orange', icon: Flame },
-            {
-              k: 'Workouts',
-              v: 32,
-              u: 'completed',
-              accent: 'text-primary-light',
-              icon: ClipboardList,
-            },
-            { k: 'Best 2km row', v: '7:42', u: 'min', accent: 'text-blue', icon: Waves },
-            { k: 'Threshold pace', v: '5:18', u: '/km', accent: 'text-mint', icon: TrendingUp },
-          ].map((s, i) => (
-            <Reveal key={s.k} delay={i * 0.07} className="card-surface p-5">
-              <div className="flex items-center justify-between">
-                <div className="text-[11px] font-semibold uppercase tracking-wide text-white/40">
-                  {s.k}
-                </div>
-                <s.icon className={cn('h-4 w-4', s.accent)} />
-              </div>
-              <div className="mt-3 flex items-end gap-1.5">
-                <div className={cn('text-mono text-4xl font-bold', s.accent)}>
-                  {typeof s.v === 'number' ? <CountUp value={s.v} /> : s.v}
-                </div>
-                <div className="mb-1.5 text-xs text-white/45">{s.u}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-
-        <div className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-          <Reveal className="card-surface p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="eyebrow">Running pace trend</div>
-                <div className="mt-1 text-lg font-semibold">Threshold pace · last 8 weeks</div>
-              </div>
-              <div className="text-mono rounded-full border border-mint/30 bg-mint/10 px-3 py-1 text-xs text-mint">
-                ▼ 42s/km
-              </div>
-            </div>
-            <div className="mt-6 h-[240px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={PACE_TREND} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <defs>
-                    <linearGradient id="paceStroke" x1="0" x2="0" y1="0" y2="1">
-                      <stop offset="0%" stopColor="#a5b4fc" />
-                      <stop offset="100%" stopColor="#4f46e5" />
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
-                  <XAxis
-                    dataKey="w"
-                    stroke="rgba(255,255,255,0.35)"
-                    tickLine={false}
-                    axisLine={false}
-                    tick={{ fontSize: 11 }}
-                  />
-                  <YAxis
-                    stroke="rgba(255,255,255,0.35)"
-                    tickLine={false}
-                    axisLine={false}
-                    tick={{ fontSize: 11 }}
-                    domain={[5, 6]}
-                    tickFormatter={(v) =>
-                      `${Math.floor(v)}:${String(Math.round((v % 1) * 60)).padStart(2, '0')}`
-                    }
-                  />
-                  <Tooltip
-                    contentStyle={{
-                      background: 'var(--card)',
-                      border: '1px solid var(--border)',
-                      borderRadius: 12,
-                      fontSize: 12,
-                    }}
-                    labelStyle={{ color: 'rgba(255,255,255,0.6)' }}
-                    formatter={(v: number) =>
-                      `${Math.floor(v)}:${String(Math.round((v % 1) * 60)).padStart(2, '0')} /km`
-                    }
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="pace"
-                    stroke="url(#paceStroke)"
-                    strokeWidth={3}
-                    dot={{ fill: '#a5b4fc', r: 3 }}
-                    activeDot={{ r: 5 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.1} className="card-surface p-6">
-            <div className="eyebrow">Station performance</div>
-            <div className="mt-1 text-lg font-semibold">Average split · last simulation</div>
-            <div className="mt-6 h-[240px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={STATION_DATA} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                  <CartesianGrid stroke="rgba(255,255,255,0.05)" vertical={false} />
-                  <XAxis
-                    dataKey="s"
-                    stroke="rgba(255,255,255,0.35)"
-                    tickLine={false}
-                    axisLine={false}
-                    tick={{ fontSize: 10 }}
-                    interval={0}
-                  />
-                  <YAxis
-                    stroke="rgba(255,255,255,0.35)"
-                    tickLine={false}
-                    axisLine={false}
-                    tick={{ fontSize: 11 }}
-                    tickFormatter={(v) => `${Math.floor(v / 60)}m`}
-                  />
-                  <Tooltip
-                    cursor={{ fill: 'rgba(255,255,255,0.04)' }}
-                    contentStyle={{
-                      background: 'var(--card)',
-                      border: '1px solid var(--border)',
-                      borderRadius: 12,
-                      fontSize: 12,
-                    }}
-                    formatter={(v: number) =>
-                      `${Math.floor(v / 60)}:${String(v % 60).padStart(2, '0')}`
-                    }
-                  />
-                  <Bar dataKey="t" fill="#4f46e5" radius={[6, 6, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </Reveal>
-        </div>
-
-        <div className="mt-4 grid gap-4 md:grid-cols-3">
-          <Reveal className="card-surface p-6">
-            <div className="eyebrow">Weekly activity</div>
-            <div className="mt-4 grid grid-cols-7 gap-2">
-              {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d, i) => (
-                <div key={i} className="text-center">
-                  <div className="text-[10px] uppercase text-white/40">{d}</div>
-                  <div
-                    className={cn(
-                      'mt-2 h-14 rounded-lg border',
-                      [0, 2, 4, 6].includes(i)
-                        ? 'border-primary/40 bg-primary/25'
-                        : 'border-white/8 bg-white/[0.02]'
-                    )}
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 text-mono text-xs text-white/45">4 sessions · 3h 42m total</div>
-          </Reveal>
-
-          <Reveal delay={0.08} className="card-surface p-6">
-            <div className="eyebrow">Recently improved</div>
-            <div className="mt-4 space-y-3">
-              {[
-                { n: 'Wall Balls', d: '100 unbroken', c: 'text-mint' },
-                { n: 'Sled Push', d: '+15kg load', c: 'text-orange' },
-                { n: '2km Row', d: '−12s', c: 'text-blue' },
-              ].map((m) => (
-                <div key={m.n} className="flex items-center justify-between">
-                  <div className="text-sm">{m.n}</div>
-                  <div className={cn('text-mono text-xs', m.c)}>{m.d}</div>
-                </div>
-              ))}
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.16} className="card-surface flex flex-col justify-between p-6">
-            <div>
-              <div className="eyebrow">Wall-ball volume</div>
-              <div className="text-mono mt-3 text-4xl font-bold text-primary-light">
-                <CountUp value={1240} format={(v) => Math.round(v).toLocaleString()} />
-              </div>
-              <div className="text-xs text-white/45">reps this month</div>
-            </div>
-            <div className="mt-6 flex h-3 items-center overflow-hidden rounded-full bg-white/5">
-              <div className="h-full w-[72%] rounded-full bg-gradient-to-r from-primary to-primary-light" />
-            </div>
-            <div className="mt-2 text-mono text-xs text-white/45">72% of monthly target</div>
-          </Reveal>
-        </div>
+    <section id="progress" className="paper-section relative py-24 md:py-36">
+      <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
+        <SectionHeader eyebrow="Progress you can see" title={<>Consistency becomes confidence.</>} />
+        <Reveal delay={0.15} className="flex justify-center lg:justify-end">
+          <PhoneMockup
+            src={mockupProgress}
+            alt="RoxPath progress dashboard"
+            className="max-w-[280px]"
+            tilt="right"
+          />
+        </Reveal>
       </div>
     </section>
   );
