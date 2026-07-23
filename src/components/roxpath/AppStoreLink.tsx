@@ -4,9 +4,10 @@ import badge from "@/assets/download-on-the-app-store-badge.png";
 interface AppStoreLinkProps {
   href: string;
   className?: string;
+  radius?: number;
 }
 
-export function AppStoreLink({ href, className }: AppStoreLinkProps) {
+export function AppStoreLink({ href, className, radius = 10 }: AppStoreLinkProps) {
   return (
     <a
       href={href}
@@ -18,7 +19,7 @@ export function AppStoreLink({ href, className }: AppStoreLinkProps) {
         src={badge}
         alt="Download on the App Store"
         className="h-full w-auto"
-        style={{ borderRadius: "10px" }}
+        style={{ borderRadius: `${radius}px` }}
       />
     </a>
   );

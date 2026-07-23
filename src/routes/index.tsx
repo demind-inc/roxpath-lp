@@ -5,7 +5,6 @@ import {
   Menu,
   X,
   Search,
-  Flame,
   Target,
   Activity,
   Dumbbell,
@@ -34,6 +33,7 @@ import logo from '@/assets/logo.png';
 import mockupHome from '@/assets/mockup-home.png';
 import mockupLibrary from '@/assets/mockup-library.png';
 import mockupTechnique from '@/assets/mockup-technique.png';
+import mockupTechnique2 from '@/assets/mockup-technique-2.png';
 import mockupSkills from '@/assets/mockup-skills.png';
 import mockupPlan from '@/assets/mockup-plan.png';
 import mockupProgress from '@/assets/mockup-progress.png';
@@ -69,11 +69,18 @@ const NAV_LINKS = [
 
 const PLAN_TAGS = [
   { icon: MapPin, label: 'Any gym. Any equipment.' },
-  { icon: Target, label: 'Correct form, every rep.' },
+  { icon: TrendingUp, label: 'Beginner to advanced.' },
+  { icon: ClipboardList, label: 'Step-by-step weekly plans.' },
   { icon: Timer, label: 'Pacing built in.' },
 ];
 
 const BENEFITS = [
+  {
+    icon: ClipboardList,
+    title: 'Personalized plan',
+    body: 'A week-by-week plan built around your gym, equipment, and level.',
+    accent: 'text-orange',
+  },
   {
     icon: MapPin,
     title: 'Train anywhere',
@@ -86,12 +93,7 @@ const BENEFITS = [
     body: 'Understand form, competition standards, coaching cues, and common mistakes.',
     accent: 'text-mint',
   },
-  {
-    icon: Timer,
-    title: 'Pace intelligently',
-    body: 'Learn how to balance running effort and station intensity.',
-    accent: 'text-orange',
-  },
+
   {
     icon: TrendingUp,
     title: 'See your progress',
@@ -239,10 +241,10 @@ function Navbar() {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={cn(
-        'sticky top-0 z-40 w-full transition-all duration-300',
+        'sticky top-0 z-40 w-full border-b backdrop-blur-xl transition-all duration-300',
         scrolled
-          ? 'border-b border-white/5 bg-background/70 backdrop-blur-xl'
-          : 'border-b border-transparent bg-transparent'
+          ? 'border-white/5 bg-background/70'
+          : 'border-white/5 bg-background/25'
       )}
     >
       <div className="container-x flex h-16 items-center justify-between md:h-20">
@@ -262,7 +264,7 @@ function Navbar() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <AppStoreLink href={APP_STORE_URL} className="hidden h-9 md:inline-block" />
+          <AppStoreLink href={APP_STORE_URL} className="hidden h-9 md:inline-block" radius={6} />
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
@@ -291,18 +293,12 @@ function Navbar() {
               {l.label}
             </a>
           ))}
-          <AppStoreLink href={APP_STORE_URL} className="mx-auto mt-3 h-11" />
+          <AppStoreLink href={APP_STORE_URL} className="mx-auto mt-3 h-11" radius={6} />
         </div>
       </div>
     </motion.header>
   );
 }
-
-const HERO_STATS = [
-  { icon: Flame, value: '12-day', label: 'Training streak' },
-  { icon: Award, value: '7:42', label: '2km row PB' },
-  { icon: Timer, value: '5:20/km', label: 'Race pace target' },
-];
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -337,12 +333,16 @@ function Hero() {
             variants={heroContainer}
             className="text-center lg:text-left"
           >
-            <motion.h1 variants={heroItem} className="h-display text-balance">
-              PERSONALIZED PLANS
+            <motion.h1
+              variants={heroItem}
+              className="h-display text-balance"
+              style={{ fontSize: 'clamp(1.9rem, 4vw, 3rem)', lineHeight: 1.15 }}
+            >
+              PERSONALIZED
               <br />
-              &amp; TECHNIQUES FOR
+              <span className="whitespace-nowrap">PLANS &amp; TECHNIQUES</span>
               <br />
-              <span className="text-primary-light">EVERY LEVEL.</span>
+              FOR <span className="text-primary-light">EVERY LEVEL.</span>
             </motion.h1>
             <motion.p
               variants={heroItem}
@@ -355,29 +355,6 @@ function Hero() {
               className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
             >
               <AppStoreLink href={APP_STORE_URL} className="h-14" />
-            </motion.div>
-
-            <motion.div
-              variants={heroItem}
-              className="mt-10 flex items-center justify-center gap-6 border-t border-white/10 pt-6 lg:justify-start"
-            >
-              {HERO_STATS.map((s, i) => (
-                <div
-                  key={s.label}
-                  className={cn(
-                    'flex items-center gap-2.5',
-                    i > 0 && 'border-l border-white/10 pl-6'
-                  )}
-                >
-                  <s.icon className="h-4 w-4 shrink-0 text-primary-light" strokeWidth={1.75} />
-                  <div className="text-left">
-                    <div className="text-mono text-sm font-bold leading-none">{s.value}</div>
-                    <div className="mt-1 text-[11px] font-medium uppercase tracking-wide text-white/40">
-                      {s.label}
-                    </div>
-                  </div>
-                </div>
-              ))}
             </motion.div>
           </motion.div>
 
@@ -519,8 +496,8 @@ function TechniqueLibrary() {
           </Reveal>
           <Reveal delay={0.3}>
             <PhoneMockup
-              src={mockupSkills}
-              alt="Session detail with technique standards and cues"
+              src={mockupTechnique2}
+              alt="Technique detail with equipment, setup, and coaching tips"
               className="max-w-[230px]"
               tilt="right"
             />
@@ -535,8 +512,12 @@ function PacingSection() {
   return (
     <section id="how" className="paper-section relative py-24 md:py-36">
       <div className="container-x">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <SectionHeader eyebrow="Smarter race pacing" title={<>Stop sprinting kilometre one.</>} />
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
+          <SectionHeader
+            eyebrow="Smarter race pacing"
+            title={<>Stop sprinting kilometre one.</>}
+            body="Know your target pace for every run and every station before the race starts, so you finish strong instead of fading in the back half."
+          />
           <Reveal delay={0.15} className="flex justify-center lg:justify-end">
             <PhoneMockup
               src={mockupSim}
@@ -554,7 +535,7 @@ function PacingSection() {
 function LoggingSection() {
   return (
     <section className="paper-section relative py-24 md:py-36">
-      <div className="container-x grid gap-16 lg:grid-cols-2 lg:items-center">
+      <div className="container-x grid gap-16 lg:grid-cols-2 lg:items-start">
         <Reveal className="order-2 flex justify-center lg:order-1">
           <PhoneMockup
             src={mockupLog}
@@ -578,8 +559,11 @@ function LoggingSection() {
 function ProgressSection() {
   return (
     <section id="progress" className="relative border-t border-white/10 bg-surface py-24 md:py-36">
-      <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
-        <SectionHeader eyebrow="Progress you can see" title={<>Consistency becomes confidence.</>} />
+      <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-start">
+        <SectionHeader
+          eyebrow="Progress you can see"
+          title={<>Consistency becomes confidence.</>}
+        />
         <Reveal delay={0.15} className="flex justify-center lg:justify-end">
           <PhoneMockup
             src={mockupProgress}
@@ -614,33 +598,6 @@ function HowItWorks() {
                   <div className="pointer-events-none absolute right-[-14px] top-1/2 hidden h-px w-7 -translate-y-1/2 bg-gradient-to-r from-white/30 to-transparent lg:block" />
                 )}
               </div>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function FutureFeatures() {
-  return (
-    <section className="relative py-24 md:py-36">
-      <div className="container-x">
-        <SectionHeader eyebrow="What's next" title={<>On the roadmap.</>} />
-        <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {FUTURE.map((f, i) => (
-            <Reveal
-              key={f.title}
-              delay={i * 0.05}
-              className="flex items-center justify-between rounded-2xl border border-dashed border-white/10 bg-white/[0.015] p-5 text-white/70"
-            >
-              <div className="flex items-center gap-3">
-                <f.icon className="h-4 w-4 text-white/40" strokeWidth={1.6} />
-                <span className="text-sm">{f.title}</span>
-              </div>
-              <span className="text-[10px] font-semibold uppercase tracking-wide text-white/35">
-                Planned
-              </span>
             </Reveal>
           ))}
         </div>
@@ -719,7 +676,7 @@ function FAQSection() {
 function FinalCTA() {
   return (
     <section id="download" className="paper-section relative overflow-hidden py-28 md:py-40">
-      <div className="container-x relative grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
+      <div className="container-x relative grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-start">
         <Reveal>
           <span className="eyebrow-pill mb-4">Available now</span>
           <h2 className="h-display">
