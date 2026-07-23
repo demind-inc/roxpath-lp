@@ -84,11 +84,18 @@ export const Route = createFileRoute("/")({
 const APP_STORE_URL = "https://apps.apple.com/app/id6790429330";
 
 const NAV_LINKS = [
+  { label: "Your Plan", href: "#plan" },
   { label: "Techniques", href: "#techniques" },
   { label: "How it works", href: "#how" },
   { label: "Progress", href: "#progress" },
   { label: "For coaches", href: "#coaches" },
   { label: "FAQ", href: "#faq" },
+];
+
+const PLAN_TAGS = [
+  { icon: MapPin, label: "Any gym. Any equipment." },
+  { icon: Target, label: "Correct form, every rep." },
+  { icon: Timer, label: "Pacing built in." },
 ];
 
 const BENEFITS = [
@@ -338,6 +345,7 @@ function Home() {
       <Navbar />
       <Hero />
       <BenefitStrip />
+      <PlanSection />
       <TechniqueLibrary />
       <SubstitutionSection />
       <PacingSection />
@@ -566,6 +574,53 @@ function BenefitStrip() {
             <p className="text-[14.5px] leading-relaxed text-white/55">{b.body}</p>
           </Reveal>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function PlanSection() {
+  return (
+    <section id="plan" className="relative overflow-hidden py-24 md:py-36">
+      <div className="container-x">
+        <SectionHeader
+          eyebrow="Your training plan"
+          title={<>Built around your gym. Paced to your level.</>}
+          align="center"
+        />
+
+        <Reveal delay={0.1}>
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+            {PLAN_TAGS.map((t) => (
+              <span
+                key={t.label}
+                className="inline-flex items-center gap-2 rounded-full border border-white/12 px-4 py-2 text-sm font-medium text-white/80"
+              >
+                <t.icon className="h-3.5 w-3.5 text-primary-light" strokeWidth={1.75} />
+                {t.label}
+              </span>
+            ))}
+          </div>
+        </Reveal>
+
+        <div className="mt-16 flex flex-wrap items-end justify-center gap-6 md:gap-10">
+          <Reveal delay={0.15}>
+            <PhoneMockup
+              src={mockupPlan}
+              alt="8-week HYROX plan, adapted to your gym and level"
+              className="max-w-[250px] sm:max-w-[290px]"
+              tilt="left"
+            />
+          </Reveal>
+          <Reveal delay={0.3} className="md:mb-12">
+            <PhoneMockup
+              src={mockupSkills}
+              alt="Session detail with technique standards and cues"
+              className="max-w-[250px] sm:max-w-[290px]"
+              tilt="right"
+            />
+          </Reveal>
+        </div>
       </div>
     </section>
   );
@@ -1238,13 +1293,12 @@ function AthleteProfile() {
     <section className="relative py-24 md:py-36">
       <div className="container-x grid gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <Reveal>
-          <PhoneMockup src={mockupPlan} alt="Athlete plan overview" tilt="right" />
+          <PhoneMockup src={mockupProgress} alt="Athlete profile and progress overview" tilt="right" />
         </Reveal>
         <div>
           <SectionHeader
             eyebrow="Your athlete profile"
             title={<>Every session, race, and record — in one place.</>}
-            body="Your profile keeps your race target, division, saved techniques, and weekly training in view so every session moves the plan forward."
           />
 
           <Reveal delay={0.15} className="mt-8 card-surface p-6">
