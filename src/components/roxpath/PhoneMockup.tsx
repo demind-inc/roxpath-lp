@@ -16,18 +16,15 @@ export function PhoneMockup({ src, alt, className, tilt = "none" }: PhoneMockupP
         : "";
   return (
     <div className={cn("relative mx-auto w-full max-w-[320px]", className)}>
-      <div
+      <img
+        src={src}
+        alt={alt}
         className={cn(
-          "relative rounded-[40px] border border-white/12 bg-black p-[6px] shadow-[0_30px_80px_-24px_rgba(0,0,0,0.65)] transition-transform duration-500",
+          "block h-auto w-full drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)] transition-transform duration-500",
           tiltClass,
         )}
-      >
-        <div className="overflow-hidden rounded-[34px] bg-black">
-          <img src={src} alt={alt} className="block h-auto w-full" loading="lazy" />
-        </div>
-        {/* notch */}
-        <div className="absolute left-1/2 top-2 h-[20px] w-[96px] -translate-x-1/2 rounded-full bg-black" />
-      </div>
+        loading="lazy"
+      />
     </div>
   );
 }

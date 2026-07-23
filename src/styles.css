@@ -111,6 +111,20 @@
   color: var(--primary-light);
 }
 
+@utility eyebrow-pill {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--primary);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+}
+
 @utility h-display {
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 6.5vw, 4.75rem);

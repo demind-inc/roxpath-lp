@@ -1,17 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Menu,
   X,
-  ArrowRight,
-  ArrowUpRight,
-  Apple,
-  Play,
   Search,
   Star,
   Flame,
-  Zap,
   Target,
   Activity,
   Dumbbell,
@@ -19,18 +14,13 @@ import {
   Timer,
   TrendingUp,
   ClipboardList,
-  Repeat,
-  Calendar,
   Award,
   Users,
   BookOpen,
   Check,
-  AlertTriangle,
   Sparkles,
   Instagram,
   Mail,
-  ChevronDown,
-  Bookmark,
   Waves,
 } from 'lucide-react';
 import {
@@ -123,71 +113,6 @@ const BENEFITS = [
     body: 'Track sessions, streaks, personal bests, weights, distances, and times.',
     accent: 'text-blue',
   },
-];
-
-const MOVEMENTS = [
-  { name: 'SkiErg', level: 'Beginner', tag: 'Machine', icon: Waves },
-  { name: 'Sled Push', level: 'Intermediate', tag: 'Sled', icon: Dumbbell },
-  { name: 'Sled Pull', level: 'Intermediate', tag: 'Sled + rope', icon: Dumbbell },
-  { name: 'Burpee Broad Jumps', level: 'All levels', tag: 'No equipment', icon: Zap },
-  { name: 'Rowing', level: 'Beginner', tag: 'Rower', icon: Activity },
-  { name: "Farmer's Carry", level: 'Beginner', tag: 'Heavy DB / KB', icon: Dumbbell },
-  { name: 'Sandbag Lunges', level: 'Intermediate', tag: 'Sandbag', icon: Flame },
-  { name: 'Wall Balls', level: 'All levels', tag: 'Wall ball', icon: Target },
-];
-
-const FILTERS = ['All movements', 'No equipment', 'Standard gym', 'Race equipment', 'Beginner'];
-
-const SUBSTITUTIONS = [
-  {
-    original: 'Sled Push',
-    swap: 'Heavy treadmill push',
-    trains: 'Horizontal drive, quad & calf endurance under load.',
-    color: 'text-orange',
-  },
-  {
-    original: 'Sled Pull',
-    swap: 'Cable pull or rope drag',
-    trains: 'Hip-hinge pulling power and grip stamina.',
-    color: 'text-primary-light',
-  },
-  {
-    original: 'SkiErg',
-    swap: 'Resistance-band ski pulls',
-    trains: 'Lat drive, hip snap, controlled fatigue.',
-    color: 'text-blue',
-  },
-  {
-    original: 'Sandbag Lunges',
-    swap: 'Dumbbell front-rack lunges',
-    trains: 'Loaded single-leg endurance and posture.',
-    color: 'text-mint',
-  },
-  {
-    original: "Farmer's Carry",
-    swap: 'Heavy dumbbell carry',
-    trains: 'Grip, trunk stiffness, and gait under fatigue.',
-    color: 'text-purple',
-  },
-];
-
-const RACE_PLAN = [
-  { seg: 'Run 1', target: '5:20/km', effort: 'Controlled', split: '4:16' },
-  { seg: 'SkiErg 1000m', target: '1:50 /500m', effort: 'Steady', split: '3:40' },
-  { seg: 'Run 2', target: '5:22/km', effort: 'Controlled', split: '4:18' },
-  { seg: 'Sled Push 50m', target: 'Sub-2:30', effort: 'Hard, paced', split: '2:20' },
-  { seg: 'Run 3', target: '5:25/km', effort: 'Steady', split: '4:20' },
-  { seg: 'Sled Pull 50m', target: 'Sub-2:40', effort: 'Hard, paced', split: '2:30' },
-  { seg: 'Run 4', target: '5:28/km', effort: 'Steady', split: '4:22' },
-  { seg: 'Burpee BJ 80m', target: 'Rhythm', effort: 'Sustainable', split: '3:50' },
-  { seg: 'Run 5', target: '5:30/km', effort: 'Steady', split: '4:24' },
-  { seg: 'Row 1000m', target: '1:55 /500m', effort: 'Threshold', split: '3:50' },
-  { seg: 'Run 6', target: '5:32/km', effort: 'Grind', split: '4:26' },
-  { seg: "Farmer's Carry 200m", target: 'Unbroken 2×', effort: 'Grip smart', split: '1:55' },
-  { seg: 'Run 7', target: '5:34/km', effort: 'Grind', split: '4:28' },
-  { seg: 'Sandbag Lunges 100m', target: 'Micro-breaks', effort: 'Legs saved', split: '3:15' },
-  { seg: 'Run 8', target: '5:20/km', effort: 'Empty tank', split: '4:16' },
-  { seg: '100 Wall Balls', target: '10s × 10', effort: 'Break smart', split: '3:40' },
 ];
 
 const LOG_ENTRIES = [
@@ -351,7 +276,6 @@ function Home() {
       <BenefitStrip />
       <PlanSection />
       <TechniqueLibrary />
-      <SubstitutionSection />
       <PacingSection />
       <LoggingSection />
       <ProgressSection />
@@ -494,8 +418,8 @@ function Hero() {
             variants={heroContainer}
             className="text-center lg:text-left"
           >
-            <motion.div variants={heroItem} className="eyebrow mb-5">
-              Available now · Built for HYROX athletes
+            <motion.div variants={heroItem}>
+              <span className="eyebrow-pill mb-5">Available now · Built for HYROX athletes</span>
             </motion.div>
             <motion.h1 variants={heroItem} className="h-display text-balance">
               MASTER EVERY
@@ -508,8 +432,7 @@ function Hero() {
               variants={heroItem}
               className="mx-auto mt-6 max-w-xl text-[17px] leading-relaxed text-white/65 lg:mx-0"
             >
-              RoxPath teaches you how to perform every HYROX movement, adapt it to the equipment you
-              have, pace your race, and track every session.
+              Technique, training plans, and race pacing — all in one app.
             </motion.p>
             <motion.div
               variants={heroItem}
@@ -650,7 +573,7 @@ function SectionHeader({
 }) {
   return (
     <Reveal className={cn('max-w-3xl', align === 'center' && 'mx-auto text-center')}>
-      <div className="eyebrow mb-4">{eyebrow}</div>
+      <span className="eyebrow-pill mb-4">{eyebrow}</span>
       <h2 className="h-section text-balance">{title}</h2>
       {body && <p className="mt-5 text-lg leading-relaxed text-white/60">{body}</p>}
     </Reveal>
@@ -658,265 +581,39 @@ function SectionHeader({
 }
 
 function TechniqueLibrary() {
-  const [active, setActive] = useState('All movements');
-  const [query, setQuery] = useState('');
-  const [saved, setSaved] = useState(false);
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return MOVEMENTS.filter((m) => !q || m.name.toLowerCase().includes(q)).filter((m) => {
-      if (active === 'All movements') return true;
-      if (active === 'No equipment') return ['Burpee Broad Jumps', 'Wall Balls'].includes(m.name);
-      if (active === 'Standard gym')
-        return ['Rowing', "Farmer's Carry", 'Wall Balls', 'Sandbag Lunges'].includes(m.name);
-      if (active === 'Race equipment') return ['Sled Push', 'Sled Pull', 'SkiErg'].includes(m.name);
-      if (active === 'Beginner') return m.level.includes('Beginner') || m.level.includes('All');
-      return true;
-    });
-  }, [active, query]);
-
   return (
     <section id="techniques" className="relative py-24 md:py-36">
       <div className="container-x">
         <SectionHeader
           eyebrow="The HYROX Technique Library"
           title={<>Learn every movement, correctly.</>}
-          body="Watch clear demonstrations, follow step-by-step instructions, understand race standards, and correct mistakes before they become habits."
+          align="center"
         />
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
-          {/* Library panel */}
-          <Reveal className="card-surface overflow-hidden p-5 md:p-7">
-            <div className="flex flex-wrap items-center gap-3">
-              <div className="relative flex-1 min-w-[220px]">
-                <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/40" />
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search movements…"
-                  aria-label="Search movements"
-                  className="w-full rounded-xl border border-white/10 bg-black/40 py-2.5 pl-10 pr-4 text-sm text-white placeholder:text-white/35 focus:border-primary/60 focus:outline-none"
-                />
-              </div>
-            </div>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {FILTERS.map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setActive(f)}
-                  className={cn(
-                    'rounded-full border px-3.5 py-1.5 text-xs transition',
-                    active === f
-                      ? 'border-primary/60 bg-primary/15 text-white'
-                      : 'border-white/10 text-white/60 hover:border-white/20 hover:text-white'
-                  )}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              {filtered.map((m) => (
-                <div
-                  key={m.name}
-                  className="hover-lift group flex items-center gap-3 rounded-2xl border border-white/8 bg-black/30 p-4"
-                >
-                  <div className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-white/[0.04] text-primary-light">
-                    <m.icon className="h-5 w-5" strokeWidth={1.6} />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="truncate text-[15px] font-semibold">{m.name}</div>
-                    <div className="mt-0.5 text-[11px] font-medium uppercase tracking-wide text-white/40">
-                      {m.level} · {m.tag}
-                    </div>
-                  </div>
-                  <ArrowUpRight className="h-4 w-4 text-white/30 transition group-hover:text-white" />
-                </div>
-              ))}
-              {filtered.length === 0 && (
-                <div className="col-span-full rounded-xl border border-dashed border-white/10 p-8 text-center text-sm text-white/50">
-                  No movements match that filter.
-                </div>
-              )}
-            </div>
+        <div className="mt-16 flex flex-wrap items-end justify-center gap-6 md:gap-10">
+          <Reveal delay={0.1}>
+            <PhoneMockup
+              src={mockupLibrary}
+              alt="Station library with a technique card for every HYROX movement"
+              className="max-w-[230px]"
+              tilt="left"
+            />
           </Reveal>
-
-          {/* Detail panel — Wall Balls */}
-          <Reveal delay={0.12} className="sheet-surface overflow-hidden">
-            <div className="relative aspect-[16/10] overflow-hidden border-b border-white/5 bg-black">
-              <img
-                src={mockupTechnique}
-                alt="Wall Balls technique preview"
-                className="h-full w-full object-cover opacity-90"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <button
-                aria-label="Play demonstration"
-                className="absolute left-1/2 top-1/2 grid h-14 w-14 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-black shadow-2xl transition hover:scale-105"
-              >
-                <Play className="h-5 w-5 fill-black" />
-              </button>
-              <div className="absolute left-4 top-4 flex gap-2">
-                <span className="rounded-full bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-white/80 backdrop-blur">
-                  Demo · 4:40
-                </span>
-              </div>
-            </div>
-            <div className="p-6">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2 text-[11px] uppercase tracking-widest">
-                  <span className="rounded-full bg-primary/20 px-2 py-1 text-primary-light">
-                    Strength
-                  </span>
-                  <span className="rounded-full bg-white/5 px-2 py-1 text-white/60">Wall ball</span>
-                </div>
-                <button
-                  onClick={() => setSaved((s) => !s)}
-                  aria-pressed={saved}
-                  aria-label="Save technique"
-                  className={cn(
-                    'grid h-9 w-9 place-items-center rounded-full border transition',
-                    saved
-                      ? 'border-primary/50 bg-primary/15 text-primary-light'
-                      : 'border-white/10 text-white/70 hover:text-white'
-                  )}
-                >
-                  <Bookmark className={cn('h-4 w-4', saved && 'fill-current')} />
-                </button>
-              </div>
-              <h3 className="mt-3 text-2xl font-bold">Wall Balls</h3>
-              <p className="mt-2 text-sm text-white/60">
-                100 squat-to-target throws on legs already wrecked. Breathing and breaking smart
-                wins.
-              </p>
-
-              <div className="mt-5 grid grid-cols-3 gap-2">
-                <MetricPill label="Reps" value="100" tone="primary" />
-                <MetricPill label="Men" value="6 / 3.0kg·m" tone="muted" />
-                <MetricPill label="Women" value="4 / 2.7kg·m" tone="muted" />
-              </div>
-
-              <div className="mt-6 space-y-4">
-                <DetailBlock title="Competition standard" icon={Check}>
-                  Hip crease below knee at bottom; ball must strike above the target line before
-                  returning. Missed target = no-rep.
-                </DetailBlock>
-                <DetailBlock title="Step-by-step execution" icon={ClipboardList}>
-                  Ball at chest, elbows tucked, feet shoulder-width. Squat to depth, drive
-                  vertically, release at eye level, receive and re-load in one motion.
-                </DetailBlock>
-                <DetailBlock title="Common mistakes" icon={AlertTriangle} tone="warn">
-                  Cutting depth under fatigue, holding breath through the throw, and starting sets
-                  too large to complete.
-                </DetailBlock>
-                <DetailBlock title="Coaching cues" icon={Zap}>
-                  “Chest tall, elbows in.” “Drive the ball, don't push it.” “Breathe on the catch.”
-                </DetailBlock>
-                <DetailBlock title="Equipment alternatives" icon={Repeat}>
-                  Med-ball squat throws · Dumbbell thruster to target · Bodyweight squat-to-reach.
-                </DetailBlock>
-              </div>
-            </div>
+          <Reveal delay={0.2} className="md:mb-10">
+            <PhoneMockup
+              src={mockupTechnique}
+              alt="Technique detail with standards, mistakes, and gym substitutions"
+              className="max-w-[230px]"
+            />
           </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function MetricPill({
-  label,
-  value,
-  tone = 'muted',
-}: {
-  label: string;
-  value: string;
-  tone?: 'primary' | 'muted';
-}) {
-  return (
-    <div
-      className={cn(
-        'rounded-xl border p-3',
-        tone === 'primary' ? 'border-primary/40 bg-primary/10' : 'border-white/8 bg-white/[0.02]'
-      )}
-    >
-      <div className="text-[10px] uppercase tracking-widest text-white/45">{label}</div>
-      <div
-        className={cn(
-          'text-mono mt-1 text-lg font-bold',
-          tone === 'primary' ? 'text-primary-light' : 'text-white'
-        )}
-      >
-        {value}
-      </div>
-    </div>
-  );
-}
-
-function DetailBlock({
-  title,
-  icon: Icon,
-  children,
-  tone,
-}: {
-  title: string;
-  icon: React.ElementType;
-  children: React.ReactNode;
-  tone?: 'warn';
-}) {
-  return (
-    <div>
-      <div className="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-wider">
-        <Icon
-          className={cn('h-3.5 w-3.5', tone === 'warn' ? 'text-orange' : 'text-primary-light')}
-        />
-        {title}
-      </div>
-      <p className="mt-1.5 text-sm leading-relaxed text-white/60">{children}</p>
-    </div>
-  );
-}
-
-function SubstitutionSection() {
-  return (
-    <section className="relative border-t border-white/10 bg-surface py-24 md:py-36">
-      <div className="container-x">
-        <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
-          <SectionHeader
-            eyebrow="No sled? No problem."
-            title={<>Swap the equipment, not the results.</>}
-          />
-          <p className="max-w-md text-[15px] leading-relaxed text-white/55">
-            Every substitution explains what the original station trains, how to recreate the
-            stimulus, and when to use the real movement before race day.
-          </p>
-        </div>
-
-        <div className="mt-12 -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-6 md:mx-0 md:grid md:grid-cols-2 md:overflow-visible md:px-0 lg:grid-cols-3">
-          {SUBSTITUTIONS.map((s, i) => (
-            <Reveal
-              key={s.original}
-              delay={i * 0.07}
-              className="w-[86vw] shrink-0 snap-start md:w-auto"
-            >
-              <div className="hover-lift card-surface flex h-full flex-col justify-between p-6">
-                <div>
-                  <div className="eyebrow text-white/40">Original station</div>
-                  <div className="mt-1 text-2xl font-bold">{s.original}</div>
-                  <div className="my-5 flex items-center gap-3 text-sm text-white/40">
-                    <div className="divider-thin flex-1" />
-                    <ArrowRight className="h-4 w-4" />
-                    <div className="divider-thin flex-1" />
-                  </div>
-                  <div className="eyebrow text-white/40">Swap it for</div>
-                  <div className={cn('mt-1 text-xl font-semibold', s.color)}>{s.swap}</div>
-                </div>
-                <p className="mt-6 text-sm leading-relaxed text-white/55">
-                  <span className="text-white/75">Trains:</span> {s.trains}
-                </p>
-              </div>
-            </Reveal>
-          ))}
+          <Reveal delay={0.3}>
+            <PhoneMockup
+              src={mockupSkills}
+              alt="Session detail with technique standards and cues"
+              className="max-w-[230px]"
+              tilt="right"
+            />
+          </Reveal>
         </div>
       </div>
     </section>
@@ -925,63 +622,17 @@ function SubstitutionSection() {
 
 function PacingSection() {
   return (
-    <section id="how" className="relative py-24 md:py-36">
+    <section id="how" className="relative border-t border-white/10 py-24 md:py-36">
       <div className="container-x">
-        <div className="grid gap-16 lg:grid-cols-2 lg:items-center">
-          <div>
-            <SectionHeader
-              eyebrow="Smarter race pacing"
-              title={<>Stop sprinting kilometre one.</>}
-              body="RoxPath helps athletes understand sustainable running pace, station intensity, transitions, and effort distribution across the complete HYROX race."
+        <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
+          <SectionHeader eyebrow="Smarter race pacing" title={<>Stop sprinting kilometre one.</>} />
+          <Reveal delay={0.15} className="flex justify-center lg:justify-end">
+            <PhoneMockup
+              src={mockupSim}
+              alt="Race simulation with live pacing guidance"
+              className="max-w-[260px]"
+              tilt="left"
             />
-            <Reveal
-              delay={0.15}
-              className="mt-8 flex items-start gap-3 rounded-2xl border border-orange/30 bg-orange/[0.06] p-4"
-            >
-              <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-orange" />
-              <div>
-                <div className="text-sm font-semibold text-orange">Pace warning</div>
-                <p className="mt-1 text-sm text-white/70">
-                  Your opening pace is <span className="text-mono text-white">18s/km</span> faster
-                  than your sustainable target. Start controlled to protect your wall-ball
-                  performance.
-                </p>
-              </div>
-            </Reveal>
-            <p className="mt-6 text-xs text-white/40">
-              Educational pacing guidance, not medical advice.
-            </p>
-          </div>
-
-          <Reveal delay={0.2} className="card-surface overflow-hidden">
-            <div className="flex items-center justify-between border-b border-white/10 p-5">
-              <div>
-                <div className="eyebrow">Race simulation</div>
-                <div className="mt-1 font-semibold">First-timer · 1:25 target</div>
-              </div>
-              <div className="rounded-full border border-white/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white/70">
-                16 segments
-              </div>
-            </div>
-            <div className="max-h-[520px] divide-y divide-white/5 overflow-y-auto">
-              {RACE_PLAN.map((r, i) => (
-                <div
-                  key={r.seg + i}
-                  className="grid grid-cols-[auto_1fr_auto] items-center gap-4 px-5 py-3.5"
-                >
-                  <div className="text-mono grid h-8 w-8 place-items-center rounded-lg bg-white/[0.04] text-[11px] text-white/50">
-                    {String(i + 1).padStart(2, '0')}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="truncate text-sm font-semibold">{r.seg}</div>
-                    <div className="text-mono mt-0.5 text-[11px] uppercase tracking-widest text-white/40">
-                      {r.target} · {r.effort}
-                    </div>
-                  </div>
-                  <div className="text-mono text-right text-sm text-white/80">{r.split}</div>
-                </div>
-              ))}
-            </div>
           </Reveal>
         </div>
       </div>
@@ -1481,9 +1132,7 @@ function FinalCTA() {
     <section id="download" className="paper-section relative overflow-hidden py-28 md:py-40">
       <div className="container-x relative grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center">
         <Reveal>
-          <div className="mb-4 text-[0.72rem] font-bold uppercase tracking-[0.16em] text-primary">
-            Available now
-          </div>
+          <span className="eyebrow-pill mb-4">Available now</span>
           <h2 className="h-display">
             YOUR NEXT RACE STARTS
             <br />
@@ -1500,18 +1149,19 @@ function FinalCTA() {
             </AppStoreLink>
             <span className="text-sm text-paper-ink/45">Free · Requires iOS</span>
           </div>
-
-          <div className="mt-10 hidden max-w-sm lg:block">
-            <img
-              src={mockupSim}
-              alt="RoxPath race simulation screen"
-              className="w-full rounded-2xl border border-black/10"
-            />
-          </div>
         </Reveal>
 
-        <Reveal delay={0.15} className="flex justify-center lg:justify-end">
-          <PhoneMockup src={mockupHome} alt="RoxPath app on iPhone" className="max-w-[280px]" />
+        <Reveal
+          delay={0.15}
+          className="flex flex-wrap items-end justify-center gap-6 lg:justify-end"
+        >
+          <PhoneMockup src={mockupHome} alt="RoxPath app on iPhone" className="max-w-[240px]" />
+          <PhoneMockup
+            src={mockupProgress}
+            alt="RoxPath progress tracking on iPhone"
+            className="mb-8 hidden max-w-[240px] sm:block"
+            tilt="right"
+          />
         </Reveal>
       </div>
     </section>
