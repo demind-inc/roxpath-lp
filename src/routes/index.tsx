@@ -5,7 +5,6 @@ import {
   Menu,
   X,
   Search,
-  Star,
   Flame,
   Target,
   Activity,
@@ -40,6 +39,7 @@ import mockupPlan from '@/assets/mockup-plan.png';
 import mockupProgress from '@/assets/mockup-progress.png';
 import mockupLog from '@/assets/mockup-log.png';
 import mockupSim from '@/assets/mockup-simulation.png';
+import heroPhoto from '@/assets/hyrox.jpg';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -64,7 +64,6 @@ const NAV_LINKS = [
   { label: 'Techniques', href: '#techniques' },
   { label: 'How it works', href: '#how' },
   { label: 'Progress', href: '#progress' },
-  { label: 'For coaches', href: '#coaches' },
   { label: 'FAQ', href: '#faq' },
 ];
 
@@ -124,24 +123,6 @@ const HOW_STEPS = [
     n: '04',
     title: 'Log and improve',
     body: 'Record your performance and see progress over time.',
-    icon: TrendingUp,
-  },
-];
-
-const COACH_BENEFITS = [
-  {
-    title: 'Consistent technique guidance',
-    body: 'Every athlete you coach references the same standards, cues, and mistake corrections.',
-    icon: Target,
-  },
-  {
-    title: 'Athlete-friendly exercise references',
-    body: 'Send clean movement pages instead of piecing together YouTube links.',
-    icon: BookOpen,
-  },
-  {
-    title: 'Easier progress conversations',
-    body: 'Review logged sessions and PBs so every check-in starts with real data.',
     icon: TrendingUp,
   },
 ];
@@ -232,8 +213,6 @@ function Home() {
       <LoggingSection />
       <ProgressSection />
       <HowItWorks />
-      <AthleteProfile />
-      <CoachSection />
       <FutureFeatures />
       <Testimonials />
       <FAQSection />
@@ -283,9 +262,7 @@ function Navbar() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
-          <AppStoreLink href={APP_STORE_URL} className="btn-primary hidden md:inline-flex">
-            Get the App
-          </AppStoreLink>
+          <AppStoreLink href={APP_STORE_URL} className="hidden h-9 md:inline-block" />
           <button
             onClick={() => setOpen((v) => !v)}
             aria-label="Toggle menu"
@@ -314,9 +291,7 @@ function Navbar() {
               {l.label}
             </a>
           ))}
-          <AppStoreLink href={APP_STORE_URL} className="btn-primary mt-3 justify-center">
-            Get the App
-          </AppStoreLink>
+          <AppStoreLink href={APP_STORE_URL} className="mx-auto mt-3 h-11" />
         </div>
       </div>
     </motion.header>
@@ -343,7 +318,17 @@ const heroItem = {
 
 function Hero() {
   return (
-    <section id="top" className="relative overflow-hidden pb-16 pt-14 md:pt-20 lg:pb-28">
+    <section id="top" className="relative z-0 overflow-hidden pb-16 pt-14 md:pt-20 lg:pb-28">
+      <div className="absolute inset-0 -z-10">
+        <img
+          src={heroPhoto}
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+      </div>
       <div className="container-x">
         <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
           <motion.div
@@ -352,9 +337,6 @@ function Hero() {
             variants={heroContainer}
             className="text-center lg:text-left"
           >
-            <motion.div variants={heroItem}>
-              <span className="eyebrow-pill mb-5">Available now · Built for HYROX athletes</span>
-            </motion.div>
             <motion.h1 variants={heroItem} className="h-display text-balance">
               MASTER EVERY
               <br />
@@ -372,12 +354,7 @@ function Hero() {
               variants={heroItem}
               className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
             >
-              <AppStoreLink href={APP_STORE_URL} className="btn-primary">
-                Download on the App Store
-              </AppStoreLink>
-              <a href="#techniques" className="btn-outline">
-                Explore techniques
-              </a>
+              <AppStoreLink href={APP_STORE_URL} className="h-14" />
             </motion.div>
 
             <motion.div
@@ -516,7 +493,7 @@ function SectionHeader({
 
 function TechniqueLibrary() {
   return (
-    <section id="techniques" className="relative py-24 md:py-36">
+    <section id="techniques" className="paper-section relative py-24 md:py-36">
       <div className="container-x">
         <SectionHeader
           eyebrow="The HYROX Technique Library"
@@ -556,7 +533,7 @@ function TechniqueLibrary() {
 
 function PacingSection() {
   return (
-    <section id="how" className="relative border-t border-white/10 py-24 md:py-36">
+    <section id="how" className="paper-section relative py-24 md:py-36">
       <div className="container-x">
         <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <SectionHeader eyebrow="Smarter race pacing" title={<>Stop sprinting kilometre one.</>} />
@@ -600,7 +577,7 @@ function LoggingSection() {
 
 function ProgressSection() {
   return (
-    <section id="progress" className="paper-section relative py-24 md:py-36">
+    <section id="progress" className="relative border-t border-white/10 bg-surface py-24 md:py-36">
       <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
         <SectionHeader eyebrow="Progress you can see" title={<>Consistency becomes confidence.</>} />
         <Reveal delay={0.15} className="flex justify-center lg:justify-end">
@@ -640,107 +617,6 @@ function HowItWorks() {
             </Reveal>
           ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-function AthleteProfile() {
-  return (
-    <section className="relative py-24 md:py-36">
-      <div className="container-x grid gap-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <Reveal>
-          <PhoneMockup
-            src={mockupProgress}
-            alt="Athlete profile and progress overview"
-            tilt="right"
-          />
-        </Reveal>
-        <div>
-          <SectionHeader eyebrow="Your athlete profile" title={<>Everything, in one place.</>} />
-
-          <Reveal delay={0.15} className="mt-8 card-surface p-6">
-            <div className="flex items-center gap-4 border-b border-white/5 pb-5">
-              <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-primary-light text-lg font-bold text-white">
-                HK
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="truncate font-semibold">Hayato K.</div>
-                <div className="text-[11px] font-semibold uppercase tracking-wide text-white/45">
-                  Beginner · Men's Open
-                </div>
-              </div>
-              <span className="rounded-full border border-mint/30 bg-mint/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-mint">
-                Week 2 of 8
-              </span>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 py-5 md:grid-cols-4">
-              {[
-                { k: 'Race', v: 'HYROX Zurich' },
-                { k: 'Goal', v: 'Sub-1:25' },
-                { k: 'Division', v: "Men's Open" },
-                { k: 'Weekly', v: '4 sessions' },
-              ].map((s) => (
-                <div key={s.k}>
-                  <div className="text-[10px] font-semibold uppercase tracking-wide text-white/40">
-                    {s.k}
-                  </div>
-                  <div className="mt-1 text-sm font-semibold">{s.v}</div>
-                </div>
-              ))}
-            </div>
-
-            <div className="border-t border-white/5 pt-5">
-              <div className="eyebrow mb-3">Saved techniques</div>
-              <div className="flex flex-wrap gap-2">
-                {['Wall Balls', 'SkiErg', 'Sled Push', "Farmer's Carry", 'Burpee BJ'].map((t) => (
-                  <span
-                    key={t}
-                    className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-white/75"
-                  >
-                    <Star className="mr-1 inline h-3 w-3 text-primary-light" />
-                    {t}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function CoachSection() {
-  return (
-    <section id="coaches" className="relative border-y border-white/10 bg-surface py-24 md:py-36">
-      <div className="container-x">
-        <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end">
-          <SectionHeader
-            eyebrow="For coaches"
-            title={<>Teach HYROX fundamentals, clearly.</>}
-            body="Use RoxPath as a shared technique reference for athletes, recommend movement substitutions, and help clients track the work completed between coaching sessions."
-          />
-          <AppStoreLink href={APP_STORE_URL} className="btn-primary shrink-0">
-            Get RoxPath for your athletes
-          </AppStoreLink>
-        </div>
-
-        <div className="mt-14 grid gap-4 md:grid-cols-3">
-          {COACH_BENEFITS.map((b, i) => (
-            <Reveal key={b.title} delay={i * 0.08}>
-              <div className="hover-lift card-surface h-full p-6">
-                <div className="grid h-11 w-11 place-items-center rounded-xl bg-primary/15 text-primary-light">
-                  <b.icon className="h-5 w-5" strokeWidth={1.6} />
-                </div>
-                <div className="mt-5 h-card">{b.title}</div>
-                <p className="mt-2 text-sm leading-relaxed text-white/55">{b.body}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-        <p className="mt-8 text-xs text-white/40">Dedicated coach dashboard — coming soon.</p>
       </div>
     </section>
   );
@@ -857,9 +733,7 @@ function FinalCTA() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-4">
-            <AppStoreLink href={APP_STORE_URL} className="btn-dark">
-              Download on the App Store
-            </AppStoreLink>
+            <AppStoreLink href={APP_STORE_URL} className="h-14" />
             <span className="text-sm text-paper-ink/45">Free · Requires iOS</span>
           </div>
         </Reveal>
@@ -895,9 +769,7 @@ function Footer() {
               Master every station. Race with confidence. RoxPath is a mobile training companion for
               first-time and developing HYROX athletes.
             </p>
-            <AppStoreLink href={APP_STORE_URL} className="btn-primary mt-6">
-              Download on the App Store
-            </AppStoreLink>
+            <AppStoreLink href={APP_STORE_URL} className="mt-6 h-12" />
           </div>
 
           <FooterCol
@@ -906,7 +778,6 @@ function Footer() {
               { label: 'Techniques', href: '#techniques' },
               { label: 'Features', href: '#how' },
               { label: 'Progress', href: '#progress' },
-              { label: 'For coaches', href: '#coaches' },
             ]}
           />
           <FooterCol
