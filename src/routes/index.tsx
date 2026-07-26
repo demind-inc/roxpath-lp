@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
-import { motion } from 'motion/react';
+import { motion, useScroll, useSpring } from 'motion/react';
 import {
   Menu,
   X,
@@ -189,6 +189,7 @@ const FAQS = [
 function Home() {
   return (
     <main className="relative min-h-screen bg-background text-foreground">
+      <ScrollProgress />
       <Navbar />
       <Hero />
       <BenefitStrip />
@@ -207,6 +208,18 @@ function Home() {
 }
 
 /* ---------------- Sections ---------------- */
+
+function ScrollProgress() {
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, { stiffness: 140, damping: 28, mass: 0.4 });
+  return (
+    <motion.div
+      aria-hidden="true"
+      style={{ scaleX }}
+      className="fixed inset-x-0 top-0 z-50 h-[2px] origin-left bg-gradient-to-r from-primary via-primary-light to-purple"
+    />
+  );
+}
 
 function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -237,9 +250,10 @@ function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-xs font-semibold uppercase tracking-wider text-white/65 transition hover:text-white"
+              className="group relative text-xs font-semibold uppercase tracking-wider text-white/65 transition hover:text-white"
             >
               {l.label}
+              <span className="absolute -bottom-1.5 left-0 h-px w-full origin-left scale-x-0 bg-gradient-to-r from-primary-light to-transparent transition-transform duration-300 ease-out group-hover:scale-x-100" />
             </a>
           ))}
         </nav>
@@ -304,6 +318,12 @@ function Hero() {
         />
         <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/50" />
+        <div className="glow-blob -left-24 top-16 h-[420px] w-[420px] bg-primary/25" />
+        <div
+          className="glow-blob -right-20 bottom-0 h-[380px] w-[380px] bg-purple/15"
+          style={{ animationDelay: '-6s' }}
+        />
+        <div className="bg-grid-faint absolute inset-0" />
       </div>
       <div className="container-x">
         <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
@@ -322,7 +342,7 @@ function Hero() {
               <br />
               <span className="whitespace-nowrap">PLANS &amp; TECHNIQUES</span>
               <br />
-              FOR <span className="text-primary-light">EVERY LEVEL.</span>
+              FOR <span className="text-gradient-primary">EVERY LEVEL.</span>
             </motion.h1>
             <motion.p
               variants={heroItem}
@@ -344,17 +364,22 @@ function Hero() {
             transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
             className="relative z-0 mx-auto w-full max-w-[280px] -translate-x-3 sm:max-w-[360px] sm:translate-x-0 lg:max-w-[420px]"
           >
-            <PhoneMockup
-              src={mockupLibrary}
-              alt="Station library with a technique card for every HYROX movement"
-              className="absolute -right-8 top-4 max-w-[150px] -z-10 opacity-90 sm:-right-16 sm:top-6 sm:max-w-[190px] md:-right-24 md:top-8 md:max-w-[220px] lg:-right-36 lg:max-w-[240px]"
-              tilt="right"
-            />
-            <PhoneMockup
-              src={mockupHome}
-              alt="RoxPath home screen"
-              className="relative max-w-[220px] sm:max-w-[260px] md:max-w-[300px] lg:max-w-[340px]"
-            />
+            <div className="animate-float-slow">
+              <PhoneMockup
+                src={mockupLibrary}
+                alt="Station library with a technique card for every HYROX movement"
+                className="absolute -right-8 top-4 max-w-[150px] -z-10 opacity-90 sm:-right-16 sm:top-6 sm:max-w-[190px] md:-right-24 md:top-8 md:max-w-[220px] lg:-right-36 lg:max-w-[240px]"
+                tilt="right"
+              />
+            </div>
+            <div className="animate-float">
+              <PhoneMockup
+                src={mockupHome}
+                alt="RoxPath home screen"
+                className="relative max-w-[220px] sm:max-w-[260px] md:max-w-[300px] lg:max-w-[340px]"
+                glow
+              />
+            </div>
           </motion.div>
         </div>
       </div>
@@ -371,14 +396,18 @@ function BenefitStrip() {
             key={b.title}
             delay={i * 0.08}
             className={cn(
-              'relative flex flex-col gap-3 py-10',
+              'group relative flex flex-col gap-3 py-10 transition-colors duration-300 hover:bg-white/[0.03]',
               i > 0 && 'sm:border-l sm:border-white/5',
               i === 2 && 'lg:border-l lg:border-white/5',
               i >= 2 && 'sm:border-t sm:border-white/5 lg:border-t-0',
               'px-6 lg:px-8'
             )}
           >
-            <b.icon className={cn('h-6 w-6', b.accent)} strokeWidth={1.6} />
+            <span className="pointer-events-none absolute inset-x-6 top-0 h-px scale-x-0 bg-gradient-to-r from-transparent via-primary-light/60 to-transparent transition-transform duration-500 group-hover:scale-x-100 lg:inset-x-8" />
+            <b.icon
+              className={cn('h-6 w-6 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110', b.accent)}
+              strokeWidth={1.6}
+            />
             <div className="h-card">{b.title}</div>
             <p className="text-[14.5px] leading-relaxed text-white/55">{b.body}</p>
           </Reveal>
@@ -391,6 +420,10 @@ function BenefitStrip() {
 function PlanSection() {
   return (
     <section id="plan" className="relative overflow-hidden py-24 md:py-36">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="glow-blob left-1/2 top-24 h-[460px] w-[620px] -translate-x-1/2 bg-primary/12" />
+        <div className="bg-grid-faint absolute inset-0" />
+      </div>
       <div className="container-x">
         <SectionHeader
           eyebrow="Personalized plan"
@@ -403,7 +436,7 @@ function PlanSection() {
             {PLAN_TAGS.map((t) => (
               <span
                 key={t.label}
-                className="inline-flex items-center gap-2 rounded-full border border-white/12 px-4 py-2 text-sm font-medium text-white/80"
+                className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/[0.02] px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-light/50 hover:bg-primary/10 hover:text-white hover:shadow-[0_8px_24px_-8px_rgba(79,70,229,0.5)]"
               >
                 <t.icon className="h-3.5 w-3.5 text-primary-light" strokeWidth={1.75} />
                 {t.label}
@@ -457,8 +490,9 @@ function SectionHeader({
 
 function TechniqueLibrary() {
   return (
-    <section id="techniques" className="paper-section relative py-24 md:py-36">
-      <div className="container-x">
+    <section id="techniques" className="paper-section relative overflow-hidden py-24 md:py-36">
+      <div className="bg-dots-ink pointer-events-none absolute inset-0" aria-hidden="true" />
+      <div className="container-x relative">
         <SectionHeader
           eyebrow="The HYROX Technique Library"
           title={<>Learn every movement, correctly.</>}
@@ -568,17 +602,18 @@ function HowItWorks() {
   return (
     <section
       id="how-it-works"
-      className="relative border-t border-white/10 bg-surface py-24 md:py-36"
+      className="relative overflow-hidden border-t border-white/10 bg-surface py-24 md:py-36"
     >
-      <div className="container-x">
+      <div className="glow-blob left-1/2 top-0 -z-0 h-[380px] w-[560px] -translate-x-1/2 bg-primary/10" />
+      <div className="container-x relative">
         <SectionHeader eyebrow="How it works" title={<>Four simple steps.</>} align="center" />
         <div className="mt-16 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {HOW_STEPS.map((s, i) => (
             <Reveal key={s.n} delay={i * 0.08}>
-              <div className="hover-lift card-surface relative flex h-full flex-col gap-4 p-6">
+              <div className="hover-lift card-surface group relative flex h-full flex-col gap-4 p-6">
                 <div className="flex items-center justify-between">
-                  <div className="text-mono text-3xl font-bold text-primary-light/80">{s.n}</div>
-                  <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary-light">
+                  <div className="text-mono text-gradient-primary text-3xl font-bold">{s.n}</div>
+                  <div className="grid h-10 w-10 place-items-center rounded-xl bg-primary/15 text-primary-light transition-all duration-300 group-hover:scale-110 group-hover:bg-primary/25 group-hover:shadow-[0_0_20px_rgba(79,70,229,0.4)]">
                     <s.icon className="h-4 w-4" />
                   </div>
                 </div>
@@ -626,8 +661,9 @@ function Testimonials() {
 
 function FAQSection() {
   return (
-    <section id="faq" className="relative py-24 md:py-36">
-      <div className="container-x grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+    <section id="faq" className="relative overflow-hidden py-24 md:py-36">
+      <div className="glow-blob -right-32 top-1/3 h-[400px] w-[400px] bg-purple/10" />
+      <div className="container-x relative grid gap-12 lg:grid-cols-[0.9fr_1.1fr]">
         <div>
           <SectionHeader
             eyebrow="FAQ"
@@ -646,7 +682,7 @@ function FAQSection() {
             <Reveal key={i} delay={Math.min(i * 0.05, 0.3)}>
               <AccordionItem
                 value={`item-${i}`}
-                className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.015] px-5"
+                className="overflow-hidden rounded-2xl border border-white/8 bg-white/[0.015] px-5 transition-all duration-300 hover:border-white/20 hover:bg-white/[0.03] data-[state=open]:border-primary/40 data-[state=open]:bg-primary/[0.06] data-[state=open]:shadow-[0_0_30px_-10px_rgba(79,70,229,0.35)]"
               >
                 <AccordionTrigger className="text-left text-[15px] font-semibold hover:no-underline [&[data-state=open]>svg]:rotate-180">
                   {f.q}
@@ -666,12 +702,13 @@ function FAQSection() {
 function FinalCTA() {
   return (
     <section id="download" className="paper-section relative overflow-hidden py-28 md:py-40">
+      <div className="bg-dots-ink pointer-events-none absolute inset-0" aria-hidden="true" />
       <div className="container-x relative grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-start">
         <Reveal>
           <h2 className="h-display">
             YOUR NEXT RACE STARTS
             <br />
-            <span className="text-primary">BEFORE RACE DAY.</span>
+            <span className="text-gradient-ink">BEFORE RACE DAY.</span>
           </h2>
           <p className="mt-6 max-w-xl text-lg text-paper-ink/60">
             Learn the movements. Train with purpose. Track what improves. RoxPath is free to
