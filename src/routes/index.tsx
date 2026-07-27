@@ -33,7 +33,9 @@ import mockupSkills from '@/assets/mockup-skills.png';
 import mockupPlan from '@/assets/mockup-plan.png';
 import mockupProgress from '@/assets/mockup-progress.png';
 import mockupLog from '@/assets/mockup-log.png';
-import mockupSim from '@/assets/mockup-simulation.png';
+import mockupSim1 from '@/assets/mockup-simulation-1.png';
+import mockupSim2 from '@/assets/mockup-simulation-2.png';
+import mockupSim3 from '@/assets/mockup-simulation-3.png';
 import heroPhoto from '@/assets/hyrox.jpg';
 
 export const Route = createFileRoute('/')({
@@ -533,18 +535,35 @@ function PacingSection() {
   return (
     <section id="pacing" className="paper-section relative py-24 md:py-36">
       <div className="container-x">
-        <div className="grid gap-12 lg:grid-cols-2 lg:items-start">
-          <SectionHeader
-            eyebrow="Smarter race pacing"
-            title={<>Stop sprinting kilometre one.</>}
-            body="Know your target pace for every run and every station before the race starts, so you finish strong instead of fading in the back half."
-          />
-          <Reveal delay={0.15} className="flex justify-center lg:justify-end">
+        <SectionHeader
+          eyebrow="Smarter race pacing"
+          title={<>Stop sprinting kilometre one.</>}
+          body="Know your target pace for every run and every station before the race starts, so you finish strong instead of fading in the back half."
+          align="center"
+        />
+
+        <div className="mt-16 flex flex-wrap items-end justify-center gap-6 md:gap-10">
+          <Reveal delay={0.1}>
             <PhoneMockup
-              src={mockupSim}
-              alt="Race simulation with live pacing guidance"
-              className="max-w-[260px]"
+              src={mockupSim1}
+              alt="Race simulation overview with target pace"
+              className="max-w-[230px]"
               tilt="left"
+            />
+          </Reveal>
+          <Reveal delay={0.2} className="md:mb-10">
+            <PhoneMockup
+              src={mockupSim2}
+              alt="Live race simulation with station pacing"
+              className="max-w-[230px]"
+            />
+          </Reveal>
+          <Reveal delay={0.3}>
+            <PhoneMockup
+              src={mockupSim3}
+              alt="Race simulation results and splits"
+              className="max-w-[230px]"
+              tilt="right"
             />
           </Reveal>
         </div>
