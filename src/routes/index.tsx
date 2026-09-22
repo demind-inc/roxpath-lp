@@ -115,7 +115,7 @@ const HOW_STEPS = [
   {
     n: '03',
     title: 'Complete sessions',
-    body: 'Follow your training in the gym, at home, or with race equipment.',
+    body: 'Get walked through each movement on screen — in the gym, at home, or with race equipment.',
     icon: Dumbbell,
   },
   {
@@ -198,6 +198,7 @@ function Home() {
       <Hero />
       <BenefitStrip />
       <PlanSection />
+      <GuidedSessionSection />
       <TechniqueLibrary />
       <PacingSection />
       <LoggingSection />
@@ -482,6 +483,29 @@ function PlanSection() {
   );
 }
 
+function GuidedSessionSection() {
+  return (
+    <section id="session" className="paper-section relative py-24 md:py-36">
+      <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
+        <SectionHeader
+          eyebrow="Guided sessions"
+          title={<>Every movement, called as you go.</>}
+          body="Start today's session and get walked through each exercise — demonstration on screen, how-to cues, equipment swaps, and a timer so you never guess between sets."
+        />
+        <Reveal delay={0.15} className="flex justify-center lg:justify-end">
+          <PhoneMockup
+            src={mockupPreview}
+            alt="Guided session with the current movement, demonstration, and coaching controls"
+            className="max-w-[280px]"
+            tilt="left"
+            glow
+          />
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 function SectionHeader({
   eyebrow,
   title,
@@ -545,7 +569,11 @@ function TechniqueLibrary() {
 
 function PacingSection() {
   return (
-    <section id="pacing" className="paper-section relative py-24 md:py-36">
+    <section id="pacing" className="relative overflow-hidden py-24 md:py-36">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="glow-blob left-1/2 top-24 h-[460px] w-[620px] -translate-x-1/2 bg-purple/12" />
+        <div className="bg-grid-faint absolute inset-0" />
+      </div>
       <div className="container-x">
         <SectionHeader
           eyebrow="Smarter race pacing"
@@ -789,6 +817,7 @@ function Footer() {
             title="Product"
             links={[
               { label: 'Features', href: '#features' },
+              { label: 'Sessions', href: '#session' },
               { label: 'Techniques', href: '#techniques' },
               { label: 'How it works', href: '#how-it-works' },
               { label: 'Progress', href: '#progress' },
