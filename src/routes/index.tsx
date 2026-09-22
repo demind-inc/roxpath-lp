@@ -37,6 +37,7 @@ import mockupLog from '@/assets/mockup-log.png';
 import mockupSim1 from '@/assets/mockup-simulation-1.png';
 import mockupSim2 from '@/assets/mockup-simulation-2.png';
 import mockupSim3 from '@/assets/mockup-simulation-3.png';
+import previewDemo from '@/assets/preview-demo.mp4';
 import heroPhoto from '@/assets/hyrox.jpg';
 
 export const Route = createFileRoute('/')({
@@ -493,10 +494,10 @@ function GuidedSessionSection() {
         />
         <Reveal delay={0.15} className="flex justify-center lg:justify-end">
           <PhoneMockup
-            src={mockupPreview}
+            src={previewDemo}
+            video
             alt="Guided session with the current movement, demonstration, and coaching controls"
-            className="max-w-[280px]"
-            tilt="left"
+            className="max-w-[260px] md:max-w-[300px]"
             glow
           />
         </Reveal>
