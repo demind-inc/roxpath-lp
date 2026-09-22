@@ -11,7 +11,6 @@ import {
   TrendingUp,
   ClipboardList,
   BookOpen,
-  Instagram,
   Mail,
 } from 'lucide-react';
 import {
@@ -26,11 +25,13 @@ import { Reveal } from '@/components/roxpath/Reveal';
 import { AppStoreLink } from '@/components/roxpath/AppStoreLink';
 import logo from '@/assets/logo.png';
 import mockupHome from '@/assets/mockup-home.png';
+import mockupPreview from '@/assets/mockup-preview.png';
 import mockupLibrary from '@/assets/mockup-library.png';
-import mockupTechnique from '@/assets/mockup-technique.png';
 import mockupTechnique2 from '@/assets/mockup-technique-2.png';
-import mockupSkills from '@/assets/mockup-skills.png';
+import mockupLearn from '@/assets/mockup-learn.png';
 import mockupPlan from '@/assets/mockup-plan.png';
+import mockupPlanDetail from '@/assets/mockup-plan-detail.png';
+import mockupPlanExplanation from '@/assets/mockup-plan-explanation.png';
 import mockupProgress from '@/assets/mockup-progress.png';
 import mockupLog from '@/assets/mockup-log.png';
 import mockupSim1 from '@/assets/mockup-simulation-1.png';
@@ -113,7 +114,7 @@ const HOW_STEPS = [
   {
     n: '03',
     title: 'Complete sessions',
-    body: 'Follow your training in the gym, at home, or with race equipment.',
+    body: 'Get walked through each movement on screen — in the gym, at home, or with race equipment.',
     icon: Dumbbell,
   },
   {
@@ -196,6 +197,7 @@ function Home() {
       <Hero />
       <BenefitStrip />
       <PlanSection />
+      <GuidedSessionSection />
       <TechniqueLibrary />
       <PacingSection />
       <LoggingSection />
@@ -368,8 +370,8 @@ function Hero() {
           >
             <div className="animate-float-slow">
               <PhoneMockup
-                src={mockupLibrary}
-                alt="Station library with a technique card for every HYROX movement"
+                src={mockupPreview}
+                alt="Live session with Burpee Broad Jump demonstration and coaching controls"
                 className="absolute -right-8 top-4 max-w-[150px] -z-10 opacity-90 sm:-right-16 sm:top-6 sm:max-w-[190px] md:-right-24 md:top-8 md:max-w-[220px] lg:-right-36 lg:max-w-[240px]"
                 tilt="right"
               />
@@ -407,7 +409,10 @@ function BenefitStrip() {
           >
             <span className="pointer-events-none absolute inset-x-6 top-0 h-px scale-x-0 bg-gradient-to-r from-transparent via-primary-light/60 to-transparent transition-transform duration-500 group-hover:scale-x-100 lg:inset-x-8" />
             <b.icon
-              className={cn('h-6 w-6 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110', b.accent)}
+              className={cn(
+                'h-6 w-6 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-110',
+                b.accent
+              )}
               strokeWidth={1.6}
             />
             <div className="h-card">{b.title}</div>
@@ -448,23 +453,53 @@ function PlanSection() {
         </Reveal>
 
         <div className="mt-16 flex flex-wrap items-end justify-center gap-6 md:gap-10">
-          <Reveal delay={0.15}>
+          <Reveal delay={0.1}>
             <PhoneMockup
               src={mockupPlan}
               alt="8-week HYROX plan, adapted to your gym and level"
-              className="max-w-[250px] sm:max-w-[290px]"
+              className="max-w-[230px]"
               tilt="left"
             />
           </Reveal>
-          <Reveal delay={0.3} className="md:mb-12">
+          <Reveal delay={0.2} className="md:mb-10">
             <PhoneMockup
-              src={mockupSkills}
-              alt="Session detail with technique standards and cues"
-              className="max-w-[250px] sm:max-w-[290px]"
+              src={mockupPlanDetail}
+              alt="Session detail with exercises, sets, and reps"
+              className="max-w-[230px]"
+            />
+          </Reveal>
+          <Reveal delay={0.3}>
+            <PhoneMockup
+              src={mockupPlanExplanation}
+              alt="Exercise explanation with demonstration and technique"
+              className="max-w-[230px]"
               tilt="right"
             />
           </Reveal>
         </div>
+      </div>
+    </section>
+  );
+}
+
+function GuidedSessionSection() {
+  return (
+    <section id="session" className="paper-section relative py-24 md:py-36">
+      <div className="container-x grid gap-12 lg:grid-cols-2 lg:items-center">
+        <SectionHeader
+          eyebrow="Guided sessions"
+          title={<>Every movement, called as you go.</>}
+          body="Start today's session and get walked through each exercise — demonstration on screen, how-to cues, equipment swaps, and a timer so you never guess between sets."
+        />
+        <Reveal delay={0.15} className="flex justify-center lg:justify-end">
+          <PhoneMockup
+            src={mockupPreview}
+            alt="Guided session with the current movement, demonstration, and coaching controls"
+            className="max-w-[280px]"
+            tilt="left"
+            glow
+          />
+        </Reveal>
       </div>
     </section>
   );
@@ -504,16 +539,16 @@ function TechniqueLibrary() {
         <div className="mt-16 flex flex-wrap items-end justify-center gap-6 md:gap-10">
           <Reveal delay={0.1}>
             <PhoneMockup
-              src={mockupLibrary}
-              alt="Station library with a technique card for every HYROX movement"
+              src={mockupLearn}
+              alt="Learn hub with HYROX guides by topic"
               className="max-w-[230px]"
               tilt="left"
             />
           </Reveal>
           <Reveal delay={0.2} className="md:mb-10">
             <PhoneMockup
-              src={mockupTechnique}
-              alt="Technique detail with standards, mistakes, and gym substitutions"
+              src={mockupLibrary}
+              alt="Station library with a technique card for every HYROX movement"
               className="max-w-[230px]"
             />
           </Reveal>
@@ -533,7 +568,11 @@ function TechniqueLibrary() {
 
 function PacingSection() {
   return (
-    <section id="pacing" className="paper-section relative py-24 md:py-36">
+    <section id="pacing" className="relative overflow-hidden py-24 md:py-36">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="glow-blob left-1/2 top-24 h-[460px] w-[620px] -translate-x-1/2 bg-purple/12" />
+        <div className="bg-grid-faint absolute inset-0" />
+      </div>
       <div className="container-x">
         <SectionHeader
           eyebrow="Smarter race pacing"
@@ -760,7 +799,7 @@ function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-background pb-10 pt-20">
       <div className="container-x">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
               <img src={logo} alt="RoxPath" className="h-10 w-10 rounded-[10px]" />
@@ -777,6 +816,7 @@ function Footer() {
             title="Product"
             links={[
               { label: 'Features', href: '#features' },
+              { label: 'Sessions', href: '#session' },
               { label: 'Techniques', href: '#techniques' },
               { label: 'How it works', href: '#how-it-works' },
               { label: 'Progress', href: '#progress' },
@@ -786,17 +826,11 @@ function Footer() {
             title="Company"
             links={[
               { label: 'FAQ', href: '#faq' },
-              { label: 'Privacy', href: 'https://app.notion.com/p/demind-inc/RoxPath-Privacy-Policy-3a47c97113e680ba9b3fce86e4567a01?source=copy_link' },
-              { label: 'Terms', href: '#' },
+              {
+                label: 'Privacy',
+                href: 'https://app.notion.com/p/demind-inc/RoxPath-Privacy-Policy-3a47c97113e680ba9b3fce86e4567a01?source=copy_link',
+              },
               { label: 'Contact', href: 'mailto:contact@demind-inc.com' },
-            ]}
-          />
-          <FooterCol
-            title="Social"
-            links={[
-              { label: 'Instagram', href: '#', icon: Instagram },
-              { label: 'TikTok', href: '#' },
-              { label: 'Email', href: 'mailto:contact@demind-inc.com', icon: Mail },
             ]}
           />
         </div>
