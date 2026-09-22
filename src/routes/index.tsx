@@ -11,7 +11,6 @@ import {
   TrendingUp,
   ClipboardList,
   BookOpen,
-  Instagram,
   Mail,
 } from 'lucide-react';
 import {
@@ -800,7 +799,7 @@ function Footer() {
   return (
     <footer className="relative border-t border-white/10 bg-background pb-10 pt-20">
       <div className="container-x">
-        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-2.5">
               <img src={logo} alt="RoxPath" className="h-10 w-10 rounded-[10px]" />
@@ -831,16 +830,7 @@ function Footer() {
                 label: 'Privacy',
                 href: 'https://app.notion.com/p/demind-inc/RoxPath-Privacy-Policy-3a47c97113e680ba9b3fce86e4567a01?source=copy_link',
               },
-              { label: 'Terms', href: '#' },
               { label: 'Contact', href: 'mailto:contact@demind-inc.com' },
-            ]}
-          />
-          <FooterCol
-            title="Social"
-            links={[
-              { label: 'Instagram', href: '#', icon: Instagram },
-              { label: 'TikTok', href: '#' },
-              { label: 'Email', href: 'mailto:contact@demind-inc.com', icon: Mail },
             ]}
           />
         </div>
